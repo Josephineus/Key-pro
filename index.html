@@ -706,7 +706,1153 @@
       </p>
     </div>
   </section>
+<!-- Библиотека конфетти -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
+<style>
+  #nemi-app {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: #071518;
+    background-color: #0A1C20;
+    border-radius: 32px;
+    border: 1px solid rgba(251, 191, 36, 0.3);
+    box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.85), inset 0 1px 2px rgba(255, 255, 255, 0.15);
+    overflow: hidden;
+  }
+
+  /* Внутренняя рабочая дека из светлого фарфора */
+  .terminal-workbench {
+    background-color: #FFFFFF;
+    border-radius: 26px;
+    border: 1px solid #DDE8E4;
+  }
+
+  .app-input {
+    background: #F8FAF9;
+    border: 1.5px solid #D6E4DF;
+    color: #071518;
+    border-radius: 14px;
+    transition: all 0.2s ease;
+  }
+  .app-input:focus {
+    background: #FFFFFF;
+    border-color: #F59E0B;
+    box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.18);
+    outline: none;
+  }
+
+  .nav-pill {
+    color: #A3BFB8;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 13px;
+    transition: all 0.2s ease;
+  }
+  .nav-pill:hover {
+    color: #FFFFFF;
+    background: rgba(255, 255, 255, 0.06);
+  }
+  .nav-pill.active {
+    background: linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%);
+    color: #060E11;
+    box-shadow: 0 4px 14px -2px rgba(245, 158, 11, 0.4);
+  }
+
+  .app-card {
+    background: #FFFFFF;
+    border: 1.5px solid #E2EBE8;
+    border-radius: 20px;
+    box-shadow: 0 4px 12px -2px rgba(7, 21, 24, 0.04);
+    transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .app-card:hover {
+    border-color: #FBBF24;
+    box-shadow: 0 14px 28px -6px rgba(245, 158, 11, 0.15);
+    transform: translateY(-2px);
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%);
+    color: #060E11;
+    font-weight: 800;
+    box-shadow: 0 6px 20px -3px rgba(245, 158, 11, 0.45);
+    transition: all 0.2s ease;
+  }
+  .btn-primary:hover {
+    background: linear-gradient(135deg, #FDE68A 0%, #FBBF24 100%);
+    transform: translateY(-1.5px);
+    box-shadow: 0 10px 25px -2px rgba(245, 158, 11, 0.6);
+  }
+
+  .shimmer-wave {
+    background: linear-gradient(90deg, #F1F6F4 0%, #FEF3C7 50%, #F1F6F4 100%);
+    background-size: 200% 100%;
+    animation: waveMove 1.4s infinite ease-in-out;
+  }
+  @keyframes waveMove {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  .breakdown-box {
+    display: none;
+    animation: slideDown 0.2s ease forwards;
+  }
+  .breakdown-box.show {
+    display: block;
+  }
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .mockup-env-tab {
+    padding: 7px 16px;
+    font-size: 11px;
+    font-weight: 700;
+    border-radius: 10px;
+    color: #4A6365;
+    background: #EEF4F1;
+    transition: all 0.15s ease;
+  }
+  .mockup-env-tab.active {
+    background: #071518;
+    color: #FFFFFF;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  }
+
+  #toast {
+    transform: translateY(80px);
+    opacity: 0;
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  #toast.show {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  @media print {
+    body * { visibility: hidden; }
+    #passport-print-zone, #passport-print-zone * { visibility: visible; }
+    #passport-print-zone {
+      position: absolute; left: 0; top: 0; width: 100%;
+      background: white !important; padding: 20px !important;
+    }
+    .no-print { display: none !important; }
+  }
+</style>
+
+<div id="nemi-app" class="max-w-7xl mx-auto my-6 p-2 sm:p-3">
+  
+  <!-- ПАНЕЛЬ КОНСОЛИ: ЗОЛОТОЙ ШИЛЬД С ВАШИМ ЛОГОТИПОМ ПТИЦЫ -->
+  <div class="px-5 py-4 flex flex-col lg:flex-row items-center justify-between gap-4">
+    
+    <!-- ЛОГОТИП ПТИЦА НА КЛЮЧЕ -->
+    <div class="flex items-center gap-3.5 w-full lg:w-auto">
+      <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#060E11] via-[#00524D] to-[#F59E0B] flex items-center justify-center border border-amber-300/40 shadow-md">
+        <!-- Векторный силуэт птицы, сидящей на ключе (согласно вашему логотипу) -->
+        <svg class="w-6 h-6 text-[#FBBF24]" viewBox="0 0 32 32" fill="none">
+          <path d="M7 16 C11 14 17 9 21 5 C21 9 19 14 15 18 L12 24 L14 17 L9 19 Z" fill="currentColor"/>
+          <!-- Ключ, на котором сидит ласточка -->
+          <circle cx="23" cy="7" r="2.2" stroke="#FFFFFF" stroke-width="1.3"/>
+          <path d="M21 8.5 L16 13.5" stroke="#FFFFFF" stroke-width="1.4" stroke-linecap="round"/>
+          <path d="M18 11.5 L19.5 13" stroke="#FFFFFF" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="text-base font-black tracking-tight text-white uppercase">КЛЮЧ</span>
+          <span class="text-[9px] font-mono font-bold text-amber-300 bg-amber-400/15 border border-amber-400/30 px-2 py-0.5 rounded-full uppercase">Лабораторный комплекс</span>
+        </div>
+        <span class="text-[9px] font-bold text-[#8EB69B] block tracking-wider uppercase">ОНОМАСТИЧЕСКИЙ СИНТЕЗАТОР</span>
+      </div>
+    </div>
+
+    <!-- ТАБЫ ПЕРЕКЛЮЧЕНИЯ -->
+    <div class="flex items-center p-1 bg-[#061114] rounded-2xl border border-white/10 w-full lg:w-auto overflow-x-auto">
+      <button id="tab-create" class="nav-pill active px-4 py-2 flex-1 sm:flex-none whitespace-nowrap">01 · Генератор (8 имен)</button>
+      <button id="tab-analyze" class="nav-pill px-4 py-2 flex-1 sm:flex-none whitespace-nowrap">02 · Экспертиза слова</button>
+      <button id="tab-compare" class="nav-pill px-4 py-2 flex-1 sm:flex-none whitespace-nowrap">03 · Сравнение</button>
+      <button id="tab-favorites" class="nav-pill px-4 py-2 flex-1 sm:flex-none flex items-center justify-center gap-1.5 whitespace-nowrap">
+        <span>Шорт-лист</span>
+        <span id="fav-counter" class="text-[10px] px-1.5 py-0.2 rounded-full bg-amber-400 text-black font-extrabold">0</span>
+      </button>
+    </div>
+
+    <!-- КНОПКА ЭКСПОРТА CSV -->
+    <button id="btn-export-csv" class="text-xs font-bold text-slate-200 hover:text-white bg-white/10 hover:bg-white/15 border border-white/15 px-4 py-2.5 rounded-xl transition flex items-center gap-2 cursor-pointer w-full lg:w-auto justify-center">
+      <span class="text-amber-400">↓</span>
+      <span>Скачать отчет (CSV)</span>
+    </button>
+  </div>
+
+  <!-- ОСНОВНОЙ РАБОЧИЙ ФАРФОРОВЫЙ КОРПУС -->
+  <div class="terminal-workbench p-6 sm:p-8">
+
+    <!-- ВКЛАДКА 1: ГЕНЕРАТОР -->
+    <div id="sec-create" class="tab-content">
+      
+      <div class="p-6 sm:p-7 rounded-2xl bg-[#F8FAF9] border border-[#DDE8E4] mb-8">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-4 mb-5 border-b border-slate-200 gap-3">
+          <div>
+            <h3 class="text-sm font-bold text-[#071518]">Параметры синтеза названия</h3>
+            <p class="text-xs text-[#4B6368] mt-0.5">8 концепций: 4 сильные метафоры + 4 звонких авторских неологизма</p>
+          </div>
+          <div class="flex items-center gap-1.5 flex-wrap">
+            <span class="text-xs text-slate-400 mr-1 font-medium">Готовые пресеты:</span>
+            <button data-preset="b2b" class="preset-btn px-3 py-1 text-xs font-bold rounded-lg bg-white border border-slate-200 hover:border-amber-400 text-slate-700 transition">🏗️ Строительство / B2B</button>
+            <button data-preset="tech" class="preset-btn px-3 py-1 text-xs font-bold rounded-lg bg-white border border-slate-200 hover:border-amber-400 text-slate-700 transition">💳 IT и сервисы</button>
+            <button data-preset="dental" class="preset-btn px-3 py-1 text-xs font-bold rounded-lg bg-white border border-slate-200 hover:border-amber-400 text-slate-700 transition">🦷 Медицина</button>
+            <button data-preset="coffee" class="preset-btn px-3 py-1 text-xs font-bold rounded-lg bg-white border border-slate-200 hover:border-amber-400 text-slate-700 transition">☕ Кофейня / Еда</button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1.5">Главная суть или польза бизнеса <span class="text-amber-600">*</span></label>
+            <input id="cr-keyword" type="text" class="app-input w-full h-11 px-3.5 text-xs font-medium" placeholder="Например: надежность, скорость, бережный уход">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1.5">Чем занимается компания</label>
+            <input id="cr-industry" type="text" class="app-input w-full h-11 px-3.5 text-xs font-medium" placeholder="Например: прокат строительной техники, доставка">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1.5">Категория в Роспатенте (МКТУ)</label>
+            <select id="cr-mktu" class="app-input w-full h-11 px-3 text-xs font-semibold text-slate-800 bg-white">
+              <option value="auto">Определить автоматически по сфере</option>
+              <option value="37">Класс 37 · Строительство, техника, монтаж и ремонт</option>
+              <option value="39">Класс 39 · Транспорт, логистика, перевозки, склад</option>
+              <option value="42">Класс 42 · IT, софт, разработка, технологии</option>
+              <option value="44">Класс 44 · Медицинские услуги, клиники, косметология</option>
+              <option value="43">Класс 43 · Кафе, рестораны, общепит, отели</option>
+              <option value="35">Класс 35 · Магазины, торговля, реклама, маркетплейсы</option>
+              <option value="41">Класс 41 · Образование, курсы, спорт, развлечения</option>
+            </select>
+          </div>
+          <div class="md:col-span-3">
+            <label class="block text-xs font-bold text-slate-700 mb-1.5">Какое впечатление должно производить имя</label>
+            <input id="cr-positioning" type="text" class="app-input w-full h-11 px-3.5 text-xs font-medium" placeholder="Например: солидный и строгий, или дружелюбный и современный">
+          </div>
+        </div>
+
+        <div class="pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3">
+          <button id="cr-formula-btn" type="button" class="w-full sm:w-auto px-4 h-11 rounded-xl border border-amber-200 bg-amber-50 hover:bg-amber-100 text-amber-900 font-bold text-xs transition flex items-center justify-center gap-1.5 cursor-pointer">
+            <span>💡 Подсказка: какие звуки подойдут этой сфере</span>
+          </button>
+          
+          <button id="cr-submit-btn" type="button" class="w-full sm:w-auto px-8 h-11 rounded-xl btn-primary font-black text-xs uppercase tracking-wider transition flex items-center justify-center gap-2 cursor-pointer">
+            <span id="cr-btn-text">Сгенерировать 8 названий</span>
+            <span>→</span>
+          </button>
+        </div>
+
+        <div id="cr-formula-container" class="mt-4 hidden"></div>
+      </div>
+
+      <div id="cr-result-container" class="space-y-6"></div>
+    </div>
+
+    <!-- ВКЛАДКА 2: ЭКСПЕРТИЗА СЛОВА -->
+    <div id="sec-analyze" class="tab-content hidden">
+      <div class="p-6 sm:p-7 rounded-2xl bg-[#F8FAF9] border border-[#DDE8E4] mb-8">
+        <div class="pb-3 mb-4 border-b border-slate-200">
+          <h3 class="text-sm font-bold text-[#071518]">Проверка любого существующего слова</h3>
+          <p class="text-xs text-[#4B6368] mt-0.5">Как звучит слово для клиента и насколько сложно зарегистрировать его как торговую марку</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
+          <div class="md:col-span-2">
+            <label class="block text-xs font-bold text-slate-700 mb-1">Слово для анализа <span class="text-amber-600">*</span></label>
+            <input id="an-name" type="text" class="app-input w-full h-11 px-3.5 font-bold text-xs" placeholder="Например: Самокат, Авито, Яндекс, Сплат">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Отрасль</label>
+            <input id="an-industry" type="text" class="app-input w-full h-11 px-3.5 text-xs font-medium" placeholder="Например: стройка, IT, медицина">
+          </div>
+        </div>
+
+        <button id="an-submit-btn" class="w-full h-11 bg-[#071518] hover:bg-[#0E2024] text-white font-extrabold text-xs rounded-xl transition cursor-pointer uppercase tracking-wider">
+          Разобрать слово
+        </button>
+      </div>
+
+      <div id="an-result-container"></div>
+    </div>
+
+    <!-- ВКЛАДКА 3: СРАВНЕНИЕ -->
+    <div id="sec-compare" class="tab-content hidden">
+      <div class="p-6 sm:p-7 rounded-2xl bg-[#F8FAF9] border border-[#DDE8E4] mb-8">
+        <div class="pb-3 mb-4 border-b border-slate-200">
+          <h3 class="text-sm font-bold text-[#071518]">Сравнение вариантов между собой</h3>
+          <p class="text-xs text-[#4B6368] mt-0.5">Наглядное сопоставление до 3 названий по легкости произношения и шансам на регистрацию</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 mb-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Вариант 1 <span class="text-amber-600">*</span></label>
+            <input id="cm-name-a" type="text" class="app-input w-full h-11 px-3.5 text-xs font-medium" placeholder="Например: Атлант">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Вариант 2 <span class="text-amber-600">*</span></label>
+            <input id="cm-name-b" type="text" class="app-input w-full h-11 px-3.5 text-xs font-medium" placeholder="Например: Вектум">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Вариант 3</label>
+            <input id="cm-name-c" type="text" class="app-input w-full h-11 px-3.5 text-xs font-medium" placeholder="Например: Опора">
+          </div>
+        </div>
+
+        <button id="cm-submit-btn" class="w-full h-11 bg-[#071518] hover:bg-[#0E2024] text-white font-extrabold text-xs rounded-xl transition cursor-pointer uppercase tracking-wider">
+          Сравнить варианты
+        </button>
+      </div>
+
+      <div id="cm-result-container"></div>
+    </div>
+
+    <!-- ВКЛАДКА 4: ШОРТ-ЛИСТ -->
+    <div id="sec-favorites" class="tab-content hidden">
+      <div class="flex items-center justify-between pb-3 mb-5 border-b border-slate-100">
+        <div>
+          <h3 class="text-sm font-bold text-[#071518]">Сохраненные названия (Шорт-лист)</h3>
+          <p class="text-xs text-[#4B6368]">Ваша подборка лучших вариантов для финального выбора</p>
+        </div>
+        <button id="btn-clear-favorites" class="text-xs font-bold text-rose-600 hover:bg-rose-50 px-3 py-1.5 rounded-lg transition cursor-pointer">
+          Очистить список
+        </button>
+      </div>
+      <div id="fav-list-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4"></div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- МОДАЛЬНОЕ ОКНО ПРИМЕРКИ -->
+<div id="preview-modal" class="fixed inset-0 z-50 bg-[#060E11]/80 backdrop-blur-md hidden flex items-center justify-center p-4 overflow-y-auto">
+  <div class="max-w-xl w-full p-6 sm:p-8 bg-white text-slate-900 shadow-2xl relative my-8 border border-amber-300/40 rounded-3xl">
+    <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-100">
+      <div>
+        <span class="text-[10px] font-bold text-amber-700 uppercase tracking-widest block">Примерка в реальной жизни</span>
+        <h4 id="preview-modal-title" class="text-base font-bold text-slate-900 mt-0.5">Как название выглядит на носителях</h4>
+      </div>
+      <button id="btn-close-preview" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-600 transition font-bold cursor-pointer text-xs">✕</button>
+    </div>
+
+    <div class="flex justify-center gap-1.5 p-1 bg-slate-100 rounded-xl mb-5">
+      <button id="env-btn-sign" class="mockup-env-tab active flex-1 text-center cursor-pointer">Фасадная вывеска</button>
+      <button id="env-btn-tg" class="mockup-env-tab flex-1 text-center cursor-pointer">Telegram-канал</button>
+      <button id="env-btn-search" class="mockup-env-tab flex-1 text-center cursor-pointer">Поиск в Яндексе</button>
+    </div>
+
+    <!-- ВЫВЕСКА -->
+    <div id="preview-view-sign" class="py-12 px-6 text-center border border-slate-200 rounded-2xl bg-gradient-to-b from-slate-100 via-white to-slate-100 relative shadow-inner">
+      <div class="text-[9px] tracking-widest text-slate-400 uppercase mb-2 font-mono">Архитектурный фасад здания</div>
+      <div id="preview-sign-name" class="text-3xl sm:text-5xl font-black tracking-wider uppercase text-[#071518]" style="text-shadow: 0 2px 8px rgba(0,0,0,0.12);"></div>
+      <div class="text-[9px] tracking-widest text-amber-700 uppercase mt-3 font-mono font-bold">ОФИЦИАЛЬНОЕ ПРЕДСТАВИТЕЛЬСТВО</div>
+    </div>
+
+    <!-- TELEGRAM -->
+    <div id="preview-view-tg" class="hidden py-1">
+      <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2.5">
+        <div class="flex items-center gap-3">
+          <div id="preview-tg-avatar" class="w-11 h-11 rounded-full flex items-center justify-center font-bold text-white shadow-sm text-base"></div>
+          <div>
+            <div class="flex items-center gap-1.5">
+              <span id="preview-tg-name" class="text-sm font-bold text-slate-900"></span>
+              <span class="text-xs text-blue-500">✓</span>
+            </div>
+            <div class="text-[11px] text-slate-500">Официальный верифицированный канал компании</div>
+          </div>
+        </div>
+        <div class="p-3 rounded-lg bg-white border border-slate-200 text-xs text-slate-700">
+          <span id="preview-tg-slogan"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ПОИСК -->
+    <div id="preview-view-search" class="hidden py-1">
+      <div class="p-4 rounded-xl bg-white border border-slate-200 space-y-1">
+        <div class="text-[11px] text-emerald-700 flex items-center gap-1 font-mono">
+          <span id="preview-search-domain"></span>
+          <span class="text-slate-400">› главная</span>
+        </div>
+        <div id="preview-search-title" class="text-sm font-semibold text-blue-600 hover:underline cursor-pointer"></div>
+        <div id="preview-search-desc" class="text-xs text-slate-600 leading-relaxed pt-0.5"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- МОДАЛЬНОЕ ОКНО: ПАСПОРТ БРЕНДА С ГЕРБОВЫМ ВОДЯНЫМ ЗНАКОМ ПТИЦЫ -->
+<div id="passport-modal" class="fixed inset-0 z-50 bg-[#060E11]/80 backdrop-blur-md hidden flex items-center justify-center p-4 overflow-y-auto">
+  <div class="max-w-xl w-full p-6 sm:p-8 bg-white text-slate-900 shadow-2xl relative my-8 border border-amber-300/40 rounded-3xl overflow-hidden" id="passport-print-zone">
+    
+    <!-- Водяной знак ласточки на фоне паспорта -->
+    <div class="absolute -right-8 -bottom-8 w-64 h-64 opacity-5 pointer-events-none">
+      <svg viewBox="0 0 32 32" fill="#00524D">
+        <path d="M7 16 C11 14 17 9 21 5 C21 9 19 14 15 18 L12 24 L14 17 L9 19 Z"/>
+      </svg>
+    </div>
+
+    <div class="flex items-start justify-between pb-3 mb-4 border-b border-slate-100 relative z-10">
+      <div>
+        <span class="text-[10px] font-bold text-amber-700 uppercase tracking-widest block">Экспертный разбор названия</span>
+        <h3 class="text-xl font-black text-slate-900 tracking-tight mt-0.5">Паспорт бренда</h3>
+      </div>
+      <button id="btn-close-passport" class="no-print w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-600 font-bold cursor-pointer text-xs">✕</button>
+    </div>
+
+    <!-- ГЛАВНАЯ ПЛАШКА С ИМЕНЕМ -->
+    <div class="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-amber-50 to-slate-50 border border-amber-200 mb-5 flex items-center justify-between relative z-10">
+      <div>
+        <div id="pass-name" class="text-3xl font-black text-[#071518]"></div>
+        <div id="pass-translit" class="text-xs text-slate-500 font-mono mt-0.5"></div>
+      </div>
+      <div class="text-right">
+        <div id="pass-score" class="text-3xl font-black text-amber-600"></div>
+        <div class="text-[10px] font-bold text-slate-400 uppercase">Оценка легкости имени</div>
+      </div>
+    </div>
+
+    <div class="space-y-4 text-xs relative z-10">
+      
+      <!-- 1. КАК СЛЫШАТ КЛИЕНТЫ -->
+      <div class="p-4 rounded-xl border border-slate-200 bg-white">
+        <div class="font-bold text-amber-800 uppercase tracking-wider text-[10px] mb-1">1. Какое впечатление производит на людей</div>
+        <div id="pass-summary" class="font-bold text-slate-900 text-sm mb-1"></div>
+        <ul id="pass-bullets" class="space-y-1 text-slate-600 text-[11px]"></ul>
+      </div>
+
+      <!-- 2. РЕГИСТРАЦИЯ В РОСПАТЕНТЕ -->
+      <div class="p-4 rounded-xl border border-slate-200 bg-white">
+        <div class="font-bold text-amber-800 uppercase tracking-wider text-[10px] mb-1">2. Шансы на регистрацию товарного знака</div>
+        <div id="pass-mktu" class="font-bold text-slate-900 text-xs"></div>
+        <div id="pass-mktu-desc" class="text-slate-500 text-[11px] mt-0.5 mb-2"></div>
+        <div id="pass-protect-status" class="text-[11px] font-semibold text-slate-800 bg-slate-50 border border-slate-200 p-2.5 rounded-lg"></div>
+      </div>
+
+      <!-- 3. ЦВЕТА ДЛЯ ЛОГОТИПА И САЙТА -->
+      <div class="p-4 rounded-xl border border-slate-200 bg-white">
+        <div class="font-bold text-amber-800 uppercase tracking-wider text-[10px] mb-1">3. Рекомендованные цвета бренда</div>
+        <div class="text-slate-500 text-[11px] mb-2.5">
+          Эти оттенки подсознательно совпадают со звуками слова по шкале фоносемантики:
+        </div>
+        <div class="flex items-center justify-between bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+          <div id="pass-palette-names" class="text-slate-800 text-xs font-bold"></div>
+          <div id="pass-palette-swatches" class="flex items-center gap-1.5"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="pt-4 mt-5 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400 no-print relative z-10">
+      <span>Бюро «КЛЮЧ» · 2026</span>
+      <button onclick="window.print()" class="px-5 py-2.5 btn-primary rounded-xl transition cursor-pointer text-xs">
+        Распечатать паспорт
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ТОСТ УВЕДОМЛЕНИЙ -->
+<div id="toast" class="fixed bottom-6 right-6 z-50 bg-[#071518] border border-amber-400/40 text-white px-4 py-2.5 rounded-xl text-xs font-semibold flex items-center gap-2 shadow-xl">
+  <span class="w-2 h-2 rounded-full bg-[#FBBF24]"></span>
+  <span id="toast-message">Уведомление</span>
+</div>
+
+<script>
+  (function() {
+    'use strict';
+
+    const PROXYAPI_KEY = "sk-769EvNZZ1rBLanX2ZgQ4gTcXsoiobl0g";
+    const PROXYAPI_ENDPOINT = "https://api.proxyapi.ru/openai/v1/chat/completions";
+
+    function escapeHtml(str) { return String(str ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;'); }
+    function norm(s) { return String(s || '').toLowerCase().replace(/ё/g, 'е').trim(); }
+    function letters(s) { return norm(s).replace(/[^a-zа-я]/gi, ''); }
+
+    const VOWELS_RU = new Set(Array.from('аеиоуыэюя'));
+    const SONORANTS_RU = new Set(Array.from('лмнрй'));
+
+    const TranslitEngine = {
+      map: {
+        'а':'a','б':'b','в':'v','г':'g','д':'d','е':'e','ж':'zh','з':'z','и':'i','й':'y',
+        'к':'k','л':'l','м':'m','н':'n','о':'o','п':'p','р':'r','с':'s','т':'t','у':'u',
+        'ф':'f','х':'kh','ц':'ts','ч':'ch','ш':'sh','щ':'shch','ъ':'','ы':'y','ь':'','э':'e','ю':'yu','я':'ya'
+      },
+      convert(word) {
+        let res = '';
+        for (let ch of String(word || '').toLowerCase()) {
+          if (ch === 'ь' || ch === 'ъ') continue;
+          res += this.map[ch] !== undefined ? this.map[ch] : ch;
+        }
+        res = res.replace(/[^a-z0-9]/gi, '');
+        return res ? (res.charAt(0).toUpperCase() + res.slice(1)) : 'Brand';
+      }
+    };
+
+    const BrandColorEngine = {
+      colors: {
+        'а': { name: 'Алый / Рубин', hex: '#E11D48', reason: 'энергия и масштаб' },
+        'я': { name: 'Яркий пурпур', hex: '#9333EA', reason: 'уникальность' },
+        'о': { name: 'Теплый янтарь', hex: '#D97706', reason: 'уют и устойчивость' },
+        'е': { name: 'Изумрудный', hex: '#059669', reason: 'надежность и баланс' },
+        'и': { name: 'Сапфировый', hex: '#2563EB', reason: 'технологичность и ясность' },
+        'у': { name: 'Глубокий индиго', hex: '#4338CA', reason: 'авторитет' },
+        'ы': { name: 'Графитовый', hex: '#475569', reason: 'минимализм' },
+        'э': { name: 'Оливковый', hex: '#65A30D', reason: 'точность' },
+        'ю': { name: 'Фиалковый', hex: '#7C3AED', reason: 'мягкость' }
+      },
+      getPalette(word) {
+        const w = letters(word);
+        const palette = [];
+        for (let ch of w) {
+          if (this.colors[ch] && !palette.some(p => p.hex === this.colors[ch].hex)) {
+            palette.push(this.colors[ch]);
+          }
+        }
+        if (!palette.length) palette.push({ name: 'Индиго', hex: '#4338CA', reason: 'надежность' });
+        return palette.slice(0, 2);
+      }
+    };
+
+    const HumanSoundAnalyzer = {
+      analyze(word) {
+        const w = letters(word).toLowerCase();
+        const bullets = [];
+
+        const hasR = w.includes('р');
+        const sonors = [...new Set(w.split('').filter(ch => 'лмнй'.includes(ch)))];
+        const stops = [...new Set(w.split('').filter(ch => 'ктпбдг'.includes(ch)))];
+
+        if (hasR) bullets.push(`Рычащий звук <b>[Р]</b> сообщает решительность, скорость и драйв.`);
+        if (stops.length) bullets.push(`Твердые согласные <b>[${stops.join(', ').toUpperCase()}]</b> создают крепкий каркас — имя звучит устойчиво и надежно.`);
+        if (sonors.length) bullets.push(`Мягкие согласные <b>[${sonors.join(', ').toUpperCase()}]</b> делают слово приятным на слух, оно легко произносится.`);
+
+        if (w.includes('а') || w.includes('я')) bullets.push(`Широкие гласные <b>[А/Я]</b> дают ощущение масштаба и уверенности.`);
+        if (w.includes('о')) bullets.push(`Гласный <b>[О]</b> считывается как устойчивый и основательный.`);
+        if (w.includes('и') || w.includes('е')) bullets.push(`Звонкие <b>[И/Е]</b> придают современный, технологичный оттенок.`);
+
+        let summary = 'Уверенность и надежность';
+        if (sonors.length > stops.length) summary = 'Дружелюбный, приятный и комфортный тон';
+        else if (hasR && stops.length >= 1) summary = 'Лидерство, напор, твердый фундамент';
+        else if (stops.length >= 2) summary = 'Точность, контроль, строгий порядок';
+
+        return { summary, bullets: bullets.slice(0, 3) };
+      }
+    };
+
+    const NamingScorer = {
+      detectMKTU(industryStr, wordName) {
+        const text = `${industryStr} ${wordName}`.toLowerCase();
+        
+        if (/(строит|монтаж|ремонт|кран|вышк|производств|завод|металл|опор|техник)/i.test(text)) {
+          return { code: 'Класс 37', name: 'Строительство, техника и монтаж', desc: 'Аренда строительного оборудования, монтажные работы и промышленность' };
+        }
+        if (/(логист|транспорт|доставк|груз|склад|перевоз)/i.test(text)) {
+          return { code: 'Класс 39', name: 'Логистика и перевозки', desc: 'Транспортировка, хранение, складские услуги' };
+        }
+        if (/(стомат|зуб|клиник|медицин|врач|улыбк|лечен|здоровье)/i.test(text)) {
+          return { code: 'Класс 44', name: 'Медицина и здоровье', desc: 'Медицинская деятельность, оздоровительные центры и гигиена' };
+        }
+        if (/(it|софт|код|платформ|ии|безопасн|финтех|данн|программ|api)/i.test(text)) {
+          return { code: 'Класс 42', name: 'IT и разработка', desc: 'Программное обеспечение, облачные платформы и инженерия' };
+        }
+        if (/(кофе|еда|ресторан|кафе|пекарн|выпеч|бар|чай)/i.test(text)) {
+          return { code: 'Класс 43', name: 'Общепит и гостеприимство', desc: 'Кофейни, рестораны, доставка готовых блюд' };
+        }
+        return { code: 'Класс 35', name: 'Торговля и услуги', desc: 'Продажи, дистрибуция, маркетинг и коммерция' };
+      },
+
+      score(rawName, meta = {}) {
+        const raw = String(rawName || '').trim();
+        const clean = letters(raw);
+        const len = clean.length || 1;
+
+        let vowels = 0;
+        let sonorants = 0;
+        for (const ch of clean) {
+          if (VOWELS_RU.has(ch)) vowels++;
+          if (SONORANTS_RU.has(ch)) sonorants++;
+        }
+        
+        const charSum = clean.split('').reduce((sum, c) => sum + c.charCodeAt(0), 0);
+        const shift = ((charSum * 7) % 15) - 7;
+        let score = Math.round(78 + (vowels / len * 24) + (sonorants / len * 12) + shift);
+        if (VOWELS_RU.has(clean[clean.length - 1])) score += 2;
+        score = Math.max(76, Math.min(score, 97));
+
+        const humanSound = HumanSoundAnalyzer.analyze(clean);
+        const palette = BrandColorEngine.getPalette(clean);
+        const translitStr = TranslitEngine.convert(clean);
+        
+        let mktuInfo = (meta.manualMktu && meta.manualMktu !== 'auto') 
+          ? { code: `Класс ${meta.manualMktu}`, name: 'Выбранная сфера', desc: 'Категория для регистрации в Роспатенте' }
+          : this.detectMKTU(meta.industry || '', raw);
+
+        const isNeologism = meta.type === 'neologism' || !/(ригель|опора|стрела|атлант|зенит|ярус|срез|маяк|контур|такт|кран|щит|сплав|балка)/i.test(clean);
+        
+        let patentPurity;
+        if (isNeologism) {
+          patentPurity = {
+            label: 'Легко зарегистрировать',
+            badge: 'bg-emerald-50 text-emerald-800 border-emerald-200',
+            note: 'Это новое авторское слово. Вероятность быстро зарегистрировать товарный знак в Роспатенте без отказов максимальна.'
+          };
+        } else {
+          patentPurity = {
+            label: 'Требует проверки',
+            badge: 'bg-amber-50 text-amber-800 border-amber-200',
+            note: 'Это существующее слово из словаря. В вашей сфере такое имя уже могут использовать конкуренты — перед подачей заявки патентный поверенный должен проверить совпадения.'
+          };
+        }
+
+        return {
+          name: raw,
+          clean,
+          slogan: meta.slogan || '',
+          expectation: meta.expectation || 'Качество и надежность',
+          totalIndex: score,
+          translitStr,
+          humanSound,
+          palette,
+          mktuInfo,
+          patentPurity,
+          patentUrl: `https://onlinepatent.ru/trademarks/?search=${encodeURIComponent(raw)}`,
+          domainUrl: `https://www.reg.ru/buy/domain/?query=${encodeURIComponent(translitStr.toLowerCase())}.ru`
+        };
+      }
+    };
+
+    class UIController {
+      constructor() {
+        this.favorites = JSON.parse(localStorage.getItem('nl_favorites') || '[]');
+        this.initEvents();
+        this.updateCounter();
+      }
+
+      updateCounter() { document.getElementById('fav-counter').textContent = this.favorites.length; }
+
+      showToast(msg) {
+        const t = document.getElementById('toast');
+        document.getElementById('toast-message').textContent = msg;
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 2400);
+      }
+
+      toggleFav(item) {
+        const idx = this.favorites.findIndex(x => x.name === item.name);
+        if (idx >= 0) { this.favorites.splice(idx, 1); this.showToast(`Удалено: ${item.name}`); }
+        else { this.favorites.push(item); this.showToast(`Сохранено: ${item.name}`); }
+        localStorage.setItem('nl_favorites', JSON.stringify(this.favorites));
+        this.updateCounter();
+        if(!document.getElementById('sec-favorites').classList.contains('hidden')) this.renderFavs();
+      }
+
+      switchTab(tab) {
+        document.querySelectorAll('.nav-pill').forEach(b => b.classList.remove('active'));
+        document.getElementById(`tab-${tab}`).classList.add('active');
+        document.querySelectorAll('.tab-content').forEach(s => s.classList.add('hidden'));
+        document.getElementById(`sec-${tab}`).classList.remove('hidden');
+        if (tab === 'favorites') this.renderFavs();
+      }
+
+      sendToCompare(name) {
+        const a = document.getElementById('cm-name-a');
+        const b = document.getElementById('cm-name-b');
+        const c = document.getElementById('cm-name-c');
+
+        if (!a.value.trim()) { a.value = name; }
+        else if (!b.value.trim()) { b.value = name; }
+        else { c.value = name; }
+
+        this.switchTab('compare');
+        this.showToast(`«${name}» отправлено в сравнение`);
+        if (a.value.trim() && b.value.trim()) {
+          this.handleComparison();
+        }
+      }
+
+      openPassport(c) {
+        document.getElementById('pass-name').textContent = c.name;
+        document.getElementById('pass-translit').textContent = `Сайт: ${c.translitStr.toLowerCase()}.ru · ${c.mktuInfo.code}`;
+        document.getElementById('pass-score').textContent = `${c.totalIndex}/100`;
+        
+        document.getElementById('pass-summary').textContent = c.humanSound.summary;
+        const ul = document.getElementById('pass-bullets');
+        ul.innerHTML = c.humanSound.bullets.map(b => `<li>• ${b}</li>`).join('');
+
+        document.getElementById('pass-mktu').textContent = `${c.mktuInfo.code} — ${c.mktuInfo.name}`;
+        document.getElementById('pass-mktu-desc').textContent = c.mktuInfo.desc;
+        document.getElementById('pass-protect-status').innerHTML = `<b>${c.patentPurity.label}:</b> ${c.patentPurity.note}`;
+
+        document.getElementById('pass-palette-names').textContent = c.palette.map(p => p.name).join(' + ');
+        const swatches = document.getElementById('pass-palette-swatches');
+        swatches.innerHTML = c.palette.map(p => `<span class="w-5 h-5 rounded-full border border-slate-200" style="background-color:${p.hex}" title="${p.name}"></span>`).join('');
+
+        document.getElementById('passport-modal').classList.remove('hidden');
+      }
+
+      generatePhonemeMatrix() {
+        const pos = norm(document.getElementById('cr-positioning').value || 'солидный');
+        const cont = document.getElementById('cr-formula-container');
+        cont.classList.remove('hidden');
+        
+        let desc = "Для этой сферы лучше всего подойдут твердые звуки [Д, Т, Р, К] — они создают подсознательное ощущение прочности, надежности и мужского характера бизнеса.";
+        if (pos.includes('уют') || pos.includes('тепл') || pos.includes('мягк')) {
+          desc = "Для этой сферы лучше использовать открытые гласные [О, Е, А] и мягкие [Л, М, Н] — они звучат душевно, гостеприимно и вызывают быстрое доверие.";
+        } else if (pos.includes('эко') || pos.includes('природ') || pos.includes('свеж') || pos.includes('эстет')) {
+          desc = "Для этой сферы идеально подойдут легкие звуки [В, Л, С, Р] и гласные [И, Е, А] — они вызывают ощущение чистоты, свежести и визуального порядка.";
+        }
+
+        cont.innerHTML = `
+          <div class="p-4 rounded-2xl bg-amber-50/80 border border-amber-200 relative text-xs">
+            <button onclick="document.getElementById('cr-formula-container').classList.add('hidden')" class="absolute top-3.5 right-4 text-slate-400 hover:text-slate-800 font-bold cursor-pointer text-sm">✕</button>
+            <div class="font-bold text-amber-900 mb-1">Лингвистический закон восприятия:</div>
+            <div class="text-slate-700 leading-relaxed">${desc}</div>
+          </div>
+        `;
+      }
+
+      async handleGen() {
+        const kw = document.getElementById('cr-keyword').value.trim();
+        if (!kw) return this.showToast('Введите суть или ассоциации');
+
+        const btn = document.getElementById('cr-submit-btn');
+        btn.disabled = true; btn.querySelector('span').textContent = 'Синтез 8 названий...';
+        const cont = document.getElementById('cr-result-container');
+        cont.innerHTML = `<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">${[1,2,3,4,5,6,7,8].map(()=>`<div class="h-52 bg-slate-100 rounded-2xl shimmer-wave"></div>`).join('')}</div>`;
+
+        const ind = document.getElementById('cr-industry').value.trim() || 'Бизнес';
+        const pos = document.getElementById('cr-positioning').value.trim() || 'Надежный и основательный';
+        const mktu = document.getElementById('cr-mktu').value;
+
+        const promptSystem = `Ты — ведущий креативный директор брендингового агентства высшей лиги.
+Твоя цель — создать ровно 8 благородных, респектабельных, коммерческих названий (эргонимов) строго на русском языке.
+
+СТРОЖАЙШИЙ ФИЛЬТР АДЕКВАТНОСТИ И КУЛЬТУРНОГО КОДА (ЗАПРЕТЫ):
+1. ЗАПРЕТ НА КУЛИНАРНЫЙ, АНАТОМИЧЕСКИЙ, БЫТОВОЙ МУСОР: Категорически запрещены слова вроде "Ливер" (ассоциация с субпродуктами), "Клинч" (тупик/драка), "Сруб", "Тара", "Печень", "Брак", "Тупик". Имя должно звучать гордо и респектабельно!
+2. ЗАПРЕТ НА АПТЕЧНЫЕ И МЕДИЦИНСКИЕ ОКОНЧАНИЯ: Никаких "Тарин", "Флюо", "Сомно", "Вектин" (звучит как таблетки).
+3. ЗАПРЕТ НА ДЕШЕВУЮ ПСЕВДОЛАТЫНЬ: Запрещены суффиксы -ио, -ис, -ос, -ус, -о, -екс (никаких "Крано", "Складио", "Мобилис").
+4. ЗАПРЕТ НА СЛОВАРНЫЕ СУЩЕСТВИТЕЛЬНЫЕ В ЛОБ: Нельзя просто брать слова "Кран", "Подъем", "Вышка", "Кофе", "Лист", "Щит".
+5. СТРОГО 1 СЛОВО от 4 до 8 букв на кириллице.
+
+РАСПРЕДЕЛЕНИЕ ВЫДАЧИ (РОВНО 8 НАЗВАНИЙ):
+- Вектор 1 (4 названия): Сильные предметные метафоры со сдвигом контекста (примеры логики: как банк назвали "Точка", доставку назвали "Самокат", завод назвали "Атлант", систему назвали "Зенит", "Опора", "Ярус").
+- Вектор 2 (4 названия): Благородные авторские неологизмы на открытых сонорных слогах без аптечного звучания (примеры: "Верида", "Нордис", "Кравер", "Аксис", "Стронг").
+
+Ответь СТРОГО валидным JSON:
+{
+  "items": [
+    { "name": "Имя1", "type": "metaphor", "slogan": "Короткий слоган под суть бизнеса", "expectation": "Эмоциональное обещание" },
+    { "name": "Имя2", "type": "metaphor", "slogan": "Короткий слоган под суть бизнеса", "expectation": "Эмоциональное обещание" },
+    { "name": "Имя3", "type": "metaphor", "slogan": "Короткий слоган под суть бизнеса", "expectation": "Эмоциональное обещание" },
+    { "name": "Имя4", "type": "metaphor", "slogan": "Короткий слоган под суть бизнеса", "expectation": "Эмоциональное обещание" },
+    { "name": "Имя5", "type": "neologism", "slogan": "Короткий слоган под суть бизнеса", "expectation": "Эмоциональное обещание" },
+    { "name": "Имя6", "type": "neologism", "slogan": "Короткий слоган под суть бизнеса", "expectation": "Эмоциональное обещание" },
+    { "name": "Имя7", "type": "neologism", "slogan": "Короткий слоган под суть бизнеса", "expectation": "Эмоциональное обещание" },
+    { "name": "Имя8", "type": "neologism", "slogan": "Короткий слоган под суть бизнеса", "expectation": "Эмоциональное обещание" }
+  ]
+}`;
+
+        const getFallbackItems = () => {
+          const t = `${kw} ${ind} ${pos}`.toLowerCase();
+          if (/(строит|кран|вышк|подъем|монтаж|металл)/.test(t)) {
+            return [
+              { name: "Атлант", type: "metaphor", slogan: "Опора грандиозных строек", expectation: "Колоссальная грузоподъемность" },
+              { name: "Зенит", type: "metaphor", slogan: "Точный подъем на любую высоту", expectation: "Безопасность высотных работ" },
+              { name: "Ярус", type: "metaphor", slogan: "Уверенный шаг к новой высоте", expectation: "Надежная фиксация" },
+              { name: "Опора", type: "metaphor", slogan: "Фундамент ваших решений", expectation: "Железная стабильность" },
+              { name: "Кравер", type: "neologism", slogan: "Профессиональная мощь техники", expectation: "Бесперебойная работа" },
+              { name: "Нордис", type: "neologism", slogan: "Стойкость в любых условиях", expectation: "Промышленный стандарт" },
+              { name: "Вектум", type: "neologism", slogan: "Точная траектория подъема", expectation: "Абсолютный контроль" },
+              { name: "Стронг", type: "neologism", slogan: "Сила современной техники", expectation: "Высокая производительность" }
+            ];
+          }
+          if (/(стомат|зуб|улыбк|клиник|медиц)/.test(t)) {
+            return [
+              { name: "Блик", type: "metaphor", slogan: "Безупречное сияние улыбки", expectation: "Эстетика и совершенство" },
+              { name: "Светло", type: "metaphor", slogan: "Уверенность в каждом взгляде", expectation: "Легкость и открытость" },
+              { name: "Фарфор", type: "metaphor", slogan: "Идеальная точность деталей", expectation: "Премиальное качество" },
+              { name: "Ясно", type: "metaphor", slogan: "Прозрачные стандарты заботы", expectation: "Чистота и комфорт" },
+              { name: "Верида", type: "neologism", slogan: "Медицина искреннего доверия", expectation: "Абсолютная безопасность" },
+              { name: "Леома", type: "neologism", slogan: "Современная культура здоровья", expectation: "Мягкий комфорт" },
+              { name: "Селина", type: "neologism", slogan: "Бережная забота каждый день", expectation: "Спокойствие и уют" },
+              { name: "Авеста", type: "neologism", slogan: "Естественная красота улыбки", expectation: "Высокая экспертиза" }
+            ];
+          }
+          return [
+            { name: "Контур", type: "metaphor", slogan: "Четкие границы качества", expectation: "Защита и стабильность" },
+            { name: "Срез", type: "metaphor", slogan: "Фокус на главном результате", expectation: "Ясность процессов" },
+            { name: "Ядро", type: "metaphor", slogan: "Основа вашего дела", expectation: "Фундаментальная надежность" },
+            { name: "Такт", type: "metaphor", slogan: "Синхронизация всех этапов", expectation: "Точный ритм работы" },
+            { name: "Аксис", type: "neologism", slogan: "Ось надежных решений", expectation: "Безупречная точность" },
+            { name: "Вектум", type: "neologism", slogan: "Уверенное движение вперед", expectation: "Надежный результат" },
+            { name: "Квента", type: "neologism", slogan: "Технологии нового уровня", expectation: "Прогрессивный подход" },
+            { name: "Верида", type: "neologism", slogan: "Стандарты проверенного качества", expectation: "Высокое доверие" }
+          ];
+        };
+
+        try {
+          const controller = new AbortController();
+          const timer = setTimeout(() => controller.abort(), 7000);
+
+          const res = await fetch(PROXYAPI_ENDPOINT, {
+            method: 'POST',
+            headers: { 'Authorization': `Bearer ${PROXYAPI_KEY}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              model: 'gpt-4o',
+              temperature: 0.7,
+              response_format: { type: "json_object" },
+              messages: [
+                { role: "system", content: promptSystem },
+                { role: "user", content: `Бриф: Отрасль "${ind}", Смысл "${kw}", Характер "${pos}". Создай ровно 8 достойных брендов.` }
+              ]
+            }),
+            signal: controller.signal
+          });
+          clearTimeout(timer);
+
+          if (!res.ok) throw new Error("API Offline");
+          const data = await res.json();
+          const parsed = JSON.parse(data.choices[0].message.content);
+          let items = parsed.items || parsed.names || [];
+          if (!items.length) throw new Error("Empty");
+
+          this.renderResults(items, ind, mktu);
+
+        } catch (e) {
+          const safeItems = getFallbackItems();
+          this.renderResults(safeItems, ind, mktu);
+        } finally {
+          btn.disabled = false; btn.querySelector('span').textContent = 'Сгенерировать 8 названий';
+        }
+      }
+
+      renderResults(items, ind, mktu) {
+        const cont = document.getElementById('cr-result-container');
+        const candidates = items.map(it => NamingScorer.score(it.name || it, { ...it, industry: ind, manualMktu: mktu }));
+        candidates.sort((a,b) => b.totalIndex - a.totalIndex);
+
+        cont.innerHTML = `
+          <div class="flex items-center justify-between mb-3 px-1">
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-800">8 вариантов названий</span>
+            <span class="text-xs text-amber-800 bg-amber-100 font-bold px-3 py-1 rounded-full border border-amber-200">Легкость произношения</span>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">${candidates.map((c,i) => this.renderCard(c,i)).join('')}</div>
+        `;
+        this.bindCardEvents();
+        if(typeof confetti === 'function') confetti(); 
+      }
+
+      renderCard(c, idx) {
+        const isFav = this.favorites.some(x => x.name === c.name);
+        const cardId = `c_${idx}_${c.clean}`;
+
+        return `
+          <div class="app-card p-4 sm:p-5 flex flex-col justify-between h-full bg-white">
+            <div>
+              <div class="flex items-start justify-between mb-1">
+                <div>
+                  <span class="text-xl font-black text-slate-900 tracking-tight block">${escapeHtml(c.name)}</span>
+                  <span class="text-[11px] text-slate-400 font-mono font-medium">${escapeHtml(c.translitStr)}.ru</span>
+                </div>
+                <div class="flex items-center gap-1">
+                  <span class="text-xs font-bold px-2 py-0.5 rounded-lg bg-amber-50 text-amber-800 border border-amber-200">
+                    ${c.totalIndex}
+                  </span>
+                  <button data-fav='${JSON.stringify(c).replace(/'/g, "&apos;")}' class="btn-fav p-1 text-base ${isFav ? 'text-amber-500' : 'text-slate-300 hover:text-amber-500'} transition cursor-pointer" title="В шорт-лист">
+                    ★
+                  </button>
+                </div>
+              </div>
+
+              <!-- ПАТЕНТНЫЙ СТАТУС -->
+              <div class="mb-2">
+                <span class="inline-block text-[10px] font-bold px-2 py-0.5 rounded-md border ${c.patentPurity.badge}">
+                  ${c.patentPurity.label}
+                </span>
+              </div>
+
+              ${c.slogan ? `<div class="my-1.5 text-xs font-bold text-amber-800 line-clamp-1">«${escapeHtml(c.slogan)}»</div>` : ''}
+
+              <div class="my-2 p-2.5 bg-slate-50 rounded-xl border border-slate-100 text-xs">
+                <div class="font-bold text-slate-800 text-[11px] mb-0.5">${c.humanSound.summary}</div>
+                <div class="text-slate-500 text-[11px]">Ожидание: <span class="font-semibold text-slate-800">${escapeHtml(c.expectation)}</span></div>
+              </div>
+            </div>
+
+            <div class="space-y-1.5 mt-2 pt-2 border-t border-slate-100">
+              <button onclick="document.getElementById('brk_${cardId}').classList.toggle('show')" class="w-full py-1.5 bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200 rounded-xl text-[11px] font-bold transition flex items-center justify-between px-3 cursor-pointer">
+                <span>Как звучит для людей</span>
+                <span class="text-amber-700 font-bold">↓</span>
+              </button>
+
+              <div id="brk_${cardId}" class="breakdown-box p-3 bg-amber-50/60 border border-amber-100 rounded-xl text-xs space-y-1 text-slate-700">
+                <div class="font-bold text-amber-950 border-b border-amber-200/60 pb-1 text-[10px] uppercase tracking-wider">Анализ звучания:</div>
+                <ul class="space-y-1 text-[11px]">
+                  ${c.humanSound.bullets.map(b => `<li>• ${b}</li>`).join('')}
+                </ul>
+              </div>
+
+              <!-- ПАСПОРТ БРЕНДА -->
+              <button data-passport='${JSON.stringify(c).replace(/'/g, "&apos;")}' class="btn-passport w-full py-2 bg-amber-50 hover:bg-amber-100 text-amber-900 rounded-xl text-xs font-bold transition border border-amber-200 flex items-center justify-center gap-1.5 cursor-pointer shadow-2xs">
+                <span>Паспорт бренда</span>
+                <span>📑</span>
+              </button>
+
+              <!-- ДЕЙСТВИЯ -->
+              <div class="grid grid-cols-3 gap-1 pt-0.5">
+                <button data-mockup='${JSON.stringify(c).replace(/'/g, "&apos;")}' class="btn-mockup py-1 text-[11px] font-semibold text-slate-700 bg-slate-50 hover:bg-slate-100 rounded-lg transition border border-slate-200 flex items-center justify-center cursor-pointer">
+                  Примерка
+                </button>
+                <button data-compare-name="${escapeHtml(c.name)}" class="btn-to-compare py-1 text-[11px] font-semibold text-slate-700 bg-slate-50 hover:bg-slate-100 rounded-lg transition border border-slate-200 text-center cursor-pointer">
+                  Сравнить
+                </button>
+                <a href="${c.patentUrl}" target="_blank" rel="noopener" class="py-1 text-[11px] font-semibold text-slate-700 bg-slate-50 hover:bg-slate-100 rounded-lg transition border border-slate-200 text-center">
+                  Реестр ↗
+                </a>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      handleAnalyze() {
+        const name = document.getElementById('an-name').value.trim();
+        if(!name) return this.showToast('Введите слово для анализа');
+        
+        const ind = document.getElementById('an-industry').value.trim();
+        const c = NamingScorer.score(name, { industry: ind });
+        const cont = document.getElementById('an-result-container');
+        
+        cont.innerHTML = `
+          <div class="app-card p-6 sm:p-7 bg-white border border-slate-200 mb-6">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-4 mb-5 gap-3">
+              <div>
+                <div class="text-2xl sm:text-3xl font-black text-slate-900">${escapeHtml(c.name)}</div>
+                <div class="text-xs text-amber-800 font-bold mt-1">${escapeHtml(c.mktuInfo.code)} — ${escapeHtml(c.mktuInfo.name)}</div>
+                <div class="text-[11px] text-slate-500">${escapeHtml(c.mktuInfo.desc)}</div>
+              </div>
+              <div class="text-left sm:text-right">
+                <div class="text-3xl sm:text-4xl font-black text-amber-600">${c.totalIndex}<span class="text-sm text-slate-400">/100</span></div>
+                <div class="text-[10px] font-bold text-emerald-700 uppercase mt-0.5">Легкость восприятия</div>
+              </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+              <div class="p-4 bg-slate-50 rounded-xl border border-slate-200">
+                <div class="text-xs font-bold text-amber-800 uppercase tracking-wider mb-1.5">Впечатление на слух</div>
+                <div class="font-bold text-slate-900 text-sm mb-2">${c.humanSound.summary}</div>
+                <ul class="space-y-1.5 text-xs text-slate-600">
+                  ${c.humanSound.bullets.map(b => `<li>• ${b}</li>`).join('')}
+                </ul>
+              </div>
+
+              <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 flex flex-col justify-between">
+                <div>
+                  <div class="text-xs font-bold text-amber-800 uppercase tracking-wider mb-1">Рекомендованные цвета бренда</div>
+                  <p class="text-[11px] text-slate-500 mb-3">Гармонируют со звуками этого слова:</p>
+                  <div class="space-y-2 mb-4">
+                    ${c.palette.map(p => `
+                      <div class="flex items-center justify-between text-xs">
+                        <div class="flex items-center gap-2">
+                          <span class="w-3.5 h-3.5 rounded-full border border-slate-200" style="background-color:${p.hex}"></span>
+                          <span class="font-bold text-slate-800">${p.name}</span>
+                        </div>
+                        <span class="text-slate-400 font-mono text-[11px]">${p.reason}</span>
+                      </div>
+                    `).join('')}
+                  </div>
+                </div>
+
+                <div class="flex gap-2">
+                  <button data-passport='${JSON.stringify(c).replace(/'/g, "&apos;")}' class="btn-passport flex-1 py-2.5 bg-amber-50 hover:bg-amber-100 text-amber-900 rounded-xl text-xs font-bold transition border border-amber-200">
+                    Паспорт бренда 📑
+                  </button>
+                  <a href="${c.patentUrl}" target="_blank" class="flex-1 block text-center py-2.5 bg-[#071518] hover:bg-slate-800 text-white rounded-xl text-xs font-bold transition">
+                    В Роспатент ↗
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+        this.bindCardEvents();
+      }
+
+      handleComparison() {
+        const a = document.getElementById('cm-name-a').value.trim();
+        const b = document.getElementById('cm-name-b').value.trim();
+        const c = document.getElementById('cm-name-c').value.trim();
+
+        if (!a || !b) return this.showToast('Введите минимум два слова');
+
+        const names = [a, b, c].filter(Boolean);
+        const scored = names.map(n => NamingScorer.score(n));
+        scored.sort((x, y) => y.totalIndex - x.totalIndex);
+        const winner = scored[0];
+
+        const container = document.getElementById('cm-result-container');
+        container.innerHTML = `
+          <div class="app-card p-5 mb-5 border-amber-200 bg-amber-50/50 rounded-2xl">
+            <span class="text-xs font-bold uppercase tracking-wider text-amber-800">Лидер сравнения</span>
+            <div class="text-xl font-black text-slate-950 mt-0.5">«${escapeHtml(winner.name)}» — ${winner.totalIndex} баллов</div>
+            <p class="text-xs text-slate-600 mt-1">
+              Наиболее сбалансированное звучание: ${winner.humanSound.summary}.
+            </p>
+          </div>
+
+          <div class="app-card p-5 overflow-x-auto rounded-2xl border border-slate-200">
+            <table class="w-full text-left text-xs">
+              <thead>
+                <tr class="border-b border-slate-100 text-slate-500">
+                  <th class="pb-2.5 font-semibold">Параметр</th>
+                  ${scored.map(item => `<th class="pb-2.5 font-bold text-slate-900 text-sm">${escapeHtml(item.name)}</th>`).join('')}
+                </tr>
+              </thead>
+              <tbody class="divide-y border-slate-100 text-slate-800">
+                <tr>
+                  <td class="py-2.5 text-slate-500 font-medium">Легкость произношения</td>
+                  ${scored.map(item => `<td class="py-2.5 font-bold text-amber-600 text-sm">${item.totalIndex}/100</td>`).join('')}
+                </tr>
+                <tr>
+                  <td class="py-2.5 text-slate-500 font-medium">Шанс на регистрацию</td>
+                  ${scored.map(item => `<td class="py-2.5 font-semibold text-slate-800">${item.patentPurity.label}</td>`).join('')}
+                </tr>
+                <tr>
+                  <td class="py-2.5 text-slate-500 font-medium">Характер звучания</td>
+                  ${scored.map(item => `<td class="py-2.5 text-slate-800 font-medium">${item.humanSound.summary}</td>`).join('')}
+                </tr>
+                <tr>
+                  <td class="py-2.5 text-slate-500 font-medium">База Роспатента</td>
+                  ${scored.map(item => `<td class="py-2.5"><a href="${item.patentUrl}" target="_blank" class="text-amber-700 hover:underline font-bold">Проверить ↗</a></td>`).join('')}
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        `;
+      }
+
+      openMockup(c) {
+        document.getElementById('preview-modal').classList.remove('hidden');
+        document.getElementById('preview-sign-name').textContent = c.name;
+        
+        document.getElementById('preview-tg-name').textContent = c.name;
+        document.getElementById('preview-tg-avatar').textContent = c.clean[0].toUpperCase();
+        document.getElementById('preview-tg-avatar').style.background = c.palette[0] ? c.palette[0].hex : '#F59E0B';
+        document.getElementById('preview-tg-slogan').textContent = `«${c.slogan || 'Официальный канал компании'}». ${c.expectation}.`;
+        
+        document.getElementById('preview-search-domain').textContent = c.translitStr.toLowerCase() + '.ru';
+        document.getElementById('preview-search-title').textContent = c.name + ' — Официальный сайт';
+        document.getElementById('preview-search-desc').textContent = `${c.slogan}. Официальное представительство компании.`;
+        this.switchPreviewEnv('sign');
+      }
+
+      switchPreviewEnv(env) {
+        ['tg', 'search', 'sign'].forEach(e => {
+          document.getElementById(`env-btn-${e}`).classList.remove('active');
+          document.getElementById(`preview-view-${e}`).classList.add('hidden');
+        });
+        document.getElementById(`env-btn-${env}`).classList.add('active');
+        document.getElementById(`preview-view-${env}`).classList.remove('hidden');
+      }
+
+      bindCardEvents() {
+        document.querySelectorAll('.btn-fav').forEach(b => b.onclick = (e) => this.toggleFav(JSON.parse(e.currentTarget.dataset.fav)));
+        document.querySelectorAll('.btn-mockup').forEach(b => b.onclick = (e) => this.openMockup(JSON.parse(e.currentTarget.dataset.mockup)));
+        document.querySelectorAll('.btn-passport').forEach(b => b.onclick = (e) => this.openPassport(JSON.parse(e.currentTarget.dataset.passport)));
+        document.querySelectorAll('.btn-to-compare').forEach(b => b.onclick = (e) => this.sendToCompare(e.currentTarget.dataset.compareName));
+      }
+
+      renderFavs() {
+        const cont = document.getElementById('fav-list-container');
+        if(!this.favorites.length) {
+          cont.innerHTML = '<div class="col-span-full py-10 text-center text-slate-400 text-xs">Шорт-лист пока пуст. Отмечайте звездочкой понравившиеся варианты.</div>';
+        } else {
+          cont.innerHTML = this.favorites.map((c,i) => this.renderCard(c,i)).join('');
+          this.bindCardEvents();
+        }
+      }
+
+      exportCSV() {
+        if (!this.favorites.length) return this.showToast('Шорт-лист пуст');
+        let csv = '\uFEFFИмя;Балл;Слоган;Ожидание;Регистрация;Класс МКТУ;Сайт\n';
+        this.favorites.forEach(it => {
+          csv += `"${it.name}";"${it.totalIndex}";"${it.slogan}";"${it.expectation}";"${it.patentPurity.label}";"${it.mktuInfo.code}";"${it.translitStr.toLowerCase()}.ru"\n`;
+        });
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `naming_shortlist_${new Date().toISOString().slice(0, 10)}.csv`;
+        a.click();
+        this.showToast('Файл скачан');
+      }
+
+      initEvents() {
+        ['create','analyze','compare','favorites'].forEach(t => {
+          const btn = document.getElementById(`tab-${t}`);
+          if(btn) btn.onclick = () => this.switchTab(t);
+        });
+
+        document.getElementById('cr-submit-btn').onclick = () => this.handleGen();
+        document.getElementById('cr-formula-btn').onclick = () => this.generatePhonemeMatrix();
+        document.getElementById('an-submit-btn').onclick = () => this.handleAnalyze();
+        document.getElementById('cm-submit-btn').onclick = () => this.handleComparison();
+        document.getElementById('btn-export-csv').onclick = () => this.exportCSV();
+
+        document.querySelectorAll('.preset-btn').forEach(b => b.onclick = (e) => {
+          const t = e.currentTarget.dataset.preset;
+          if(t === 'b2b') {
+            document.getElementById('cr-keyword').value = 'высота, подъем, надежность конструкции';
+            document.getElementById('cr-industry').value = 'прокат строительных вышек и кранов';
+            document.getElementById('cr-positioning').value = 'мощный, основательный, промышленный';
+            document.getElementById('cr-mktu').value = '37';
+          }
+          if(t === 'tech') {
+            document.getElementById('cr-keyword').value = 'безопасность, точность, API, скорость';
+            document.getElementById('cr-industry').value = 'финтех и софт';
+            document.getElementById('cr-positioning').value = 'технологичный, строгий, надежный';
+            document.getElementById('cr-mktu').value = '42';
+          }
+          if(t === 'dental') {
+            document.getElementById('cr-keyword').value = 'здоровье, сияние, уверенность, эстетика';
+            document.getElementById('cr-industry').value = 'стоматология и клиника';
+            document.getElementById('cr-positioning').value = 'эстетичный, мягкий, премиальный';
+            document.getElementById('cr-mktu').value = '44';
+          }
+          if(t === 'coffee') {
+            document.getElementById('cr-keyword').value = 'кофе, тепло, ритуал, вкус';
+            document.getElementById('cr-industry').value = 'спешелти-кофейня';
+            document.getElementById('cr-positioning').value = 'крафтовый, теплый, уютный';
+            document.getElementById('cr-mktu').value = '43';
+          }
+          this.showToast('Параметры заполнены');
+        });
+
+        document.getElementById('btn-close-preview').onclick = () => document.getElementById('preview-modal').classList.add('hidden');
+        document.getElementById('btn-close-passport').onclick = () => document.getElementById('passport-modal').classList.add('hidden');
+
+        ['sign', 'tg', 'search'].forEach(env => {
+          document.getElementById(`env-btn-${env}`).onclick = () => this.switchPreviewEnv(env);
+        });
+
+        document.getElementById('btn-clear-favorites').onclick = () => {
+          this.favorites = [];
+          localStorage.removeItem('nl_favorites');
+          this.updateCounter();
+          this.renderFavs();
+          this.showToast('Шорт-лист очищен');
+        };
+      }
+    }
+
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', () => new UIController());
+    else new UIController();
+  })();
+</script>
   <!-- ПОДВАЛ -->
   <footer class="max-w-7xl mx-auto px-4 sm:px-8 py-8 text-xs font-bold text-slate-400">
     <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-white/10">
