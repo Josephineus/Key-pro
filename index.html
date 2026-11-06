@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+<html lang="ru" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>КЛЮЧ — Бюро прикладной ономастики</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800;900&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
+  
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    :root {
+      --font-main: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-code: 'JetBrains Mono', monospace;
+      
+      /* Темный изумрудный фон */
+      --c-bg-dusk: #060E11;
+      --c-bg-emerald-glow: #0A1B20;
+      
+      /* Светлые фарфоровые блоки */
+      --c-card-light: #FFFFFF;
+      --c-card-border: #DDE8E4;
+      
+      /* Золотые и янтарные акценты */
+      --c-gold-bright: #FBBF24;
+      --c-gold-amber: #F59E0B;
+      
+      /* Тексты */
+      --c-text-dark: #071518;
+      --c-text-muted: #4B6368;
+      --c-text-light: #F1F6F4;
+    }
+
+    html, body {
+      font-family: var(--font-main);
+      background-color: var(--c-bg-dusk);
+      color: var(--c-text-light);
+      letter-spacing: -0.025em;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    .font-mono-tag {
+      font-family: var(--font-code);
+      letter-spacing: -0.02em;
+    }
+
+    /* СКВОЗНОЙ ТЕМНЫЙ ИЗУМРУДНЫЙ ХОЛСТ */
+    .master-dark-canvas {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      background: 
+        radial-gradient(1100px 650px at 50% -60px, rgba(0, 175, 185, 0.22) 0%, rgba(6, 14, 17, 0) 70%),
+        radial-gradient(900px 700px at 96% 18%, rgba(245, 158, 11, 0.12) 0%, rgba(6, 14, 17, 0) 65%),
+        radial-gradient(850px 700px at 4% 42%, rgba(0, 82, 77, 0.3) 0%, rgba(6, 14, 17, 0) 65%),
+        radial-gradient(950px 750px at 90% 75%, rgba(251, 191, 36, 0.08) 0%, rgba(6, 14, 17, 0) 70%),
+        var(--c-bg-dusk);
+      background-attachment: fixed;
+    }
+
+    /* СВЕТЛЫЕ ФАРФОРОВЫЕ КАРТОЧКИ (МАКСИМАЛЬНЫЙ КОНТРАСТ И ЧИТАЕМОСТЬ) */
+    .block-porcelain-light {
+      background: #FFFFFF;
+      border: 1px solid var(--c-card-border);
+      border-radius: 32px;
+      color: var(--c-text-dark);
+      box-shadow: 
+        0 25px 60px -15px rgba(0, 0, 0, 0.65),
+        0 2px 8px rgba(0, 0, 0, 0.04);
+      transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .block-porcelain-light:hover {
+      border-color: var(--c-gold-bright);
+      box-shadow: 0 30px 70px -15px rgba(245, 158, 11, 0.18);
+      transform: translateY(-2px);
+    }
+
+    /* Витрина Hero */
+    .hero-stage-podium {
+      background: radial-gradient(circle at 50% 25%, #10262C 0%, #08171B 65%, #050E10 100%);
+      border: 1px solid rgba(251, 191, 36, 0.3);
+      border-radius: 36px;
+      box-shadow: 
+        inset 0 1px 2px rgba(255, 255, 255, 0.15),
+        0 30px 80px -20px rgba(0, 0, 0, 0.9);
+    }
+
+    /* ЗОЛОТАЯ КНОПКА CTA */
+    .btn-gold-action {
+      background: linear-gradient(135deg, #FBBF24 0%, #F59E0B 100%);
+      color: #060E11;
+      border-radius: 9999px;
+      font-weight: 800;
+      transition: all 0.22s ease;
+      box-shadow: 0 10px 28px -4px rgba(245, 158, 11, 0.45);
+    }
+    .btn-gold-action:hover {
+      background: linear-gradient(135deg, #FDE68A 0%, #FBBF24 100%);
+      transform: translateY(-2px);
+      box-shadow: 0 15px 35px -2px rgba(245, 158, 11, 0.65);
+    }
+
+    /* Навигационные табы */
+    .pill-filter-tab {
+      background: #EDF4F1;
+      border: 1px solid #D6E4DF;
+      color: #374E52;
+      border-radius: 9999px;
+      transition: all 0.2s ease;
+      font-weight: 700;
+      min-height: 40px;
+    }
+    .pill-filter-tab:hover {
+      color: #071518;
+      background: #FFFFFF;
+      border-color: #F59E0B;
+    }
+    .pill-filter-tab.active {
+      background: #071518;
+      border-color: #071518;
+      color: #FFFFFF;
+      box-shadow: 0 4px 12px -2px rgba(7, 21, 24, 0.25);
+    }
+
+    /* ========================================================
+       4.0-СЕКУНДНАЯ АКРОБАТИКА: 3D-КЛЮЧ С ЗОЛОТЫМИ АКЦЕНТАМИ
+    ======================================================== */
+    .key-stage-rig {
+      perspective: 1200px;
+      transform-style: preserve-3d;
+    }
+
+    @keyframes smoothAcrobaticKey4s {
+      0% {
+        transform: translateY(0px) rotateZ(0deg) rotateY(0deg) scale(1);
+      }
+      14% {
+        transform: translateY(3px) rotateZ(-3deg) scale(1.02, 0.98);
+      }
+      36% {
+        transform: translateY(-28px) rotateZ(35deg) rotateY(180deg) scale(1.08);
+      }
+      56% {
+        transform: translateY(-30px) rotateZ(180deg) rotateY(360deg) scale(1.1);
+      }
+      74% {
+        transform: translateY(8px) rotateZ(360deg) rotateY(540deg) scale(0.97, 1.03);
+      }
+      82% {
+        transform: translateY(13px) rotateZ(360deg) rotateY(720deg) scale(1.12, 0.88);
+      }
+      90% {
+        transform: translateY(-4px) rotateZ(360deg) rotateY(720deg) scale(0.99, 1.01);
+      }
+      100% {
+        transform: translateY(0px) rotateZ(360deg) rotateY(720deg) scale(1);
+      }
+    }
+
+    .key-3d-actor {
+      animation: smoothAcrobaticKey4s 4.0s cubic-bezier(0.28, 0.9, 0.42, 1) infinite;
+      transform-origin: center center;
+      filter: drop-shadow(0 20px 35px rgba(0, 0, 0, 0.75));
+    }
+
+    @keyframes keyShadowSync4s {
+      0%, 100% { transform: scale(1); opacity: 0.6; filter: blur(8px); }
+      36%, 56% { transform: scale(0.45); opacity: 0.15; filter: blur(20px); }
+      82% { transform: scale(1.4); opacity: 0.9; filter: blur(5px); }
+      90% { transform: scale(0.9); opacity: 0.4; filter: blur(10px); }
+    }
+
+    .key-sync-shadow {
+      animation: keyShadowSync4s 4.0s cubic-bezier(0.28, 0.9, 0.42, 1) infinite;
+    }
+
+    @keyframes shockwaveExpand {
+      0%, 78% { transform: scale(0.2); opacity: 0; }
+      82% { opacity: 0.95; }
+      94% { transform: scale(2.2); opacity: 0; }
+      100% { transform: scale(2.4); opacity: 0; }
+    }
+
+    .shockwave-gold-ring {
+      position: absolute;
+      width: 140px;
+      height: 38px;
+      border: 2px solid #FBBF24;
+      box-shadow: 0 0 18px rgba(245, 158, 11, 0.7);
+      border-radius: 50%;
+      pointer-events: none;
+      animation: shockwaveExpand 4.0s ease-out infinite;
+    }
+
+    @keyframes orbitPulseHalo {
+      0%, 100% { transform: scale(0.96); opacity: 0.4; }
+      50% { transform: scale(1.08); opacity: 0.8; }
+    }
+    .aurora-pulse-orbit {
+      animation: orbitPulseHalo 3.5s ease-in-out infinite;
+    }
+
+    section[id] { scroll-margin-top: 80px; }
+  </style>
+</head>
+<body class="selection:bg-amber-400 selection:text-black">
+
+<div class="master-dark-canvas py-4 sm:py-6">
+
+  <!-- ШАПКА: СВЕТЛАЯ КАРТОЧКА С ЗОЛОТЫМИ АКЦЕНТАМИ -->
+  <header class="sticky top-4 z-50 max-w-7xl mx-auto px-4 sm:px-8 mb-8">
+    <div class="bg-white/95 backdrop-blur-md px-5 sm:px-7 h-20 flex items-center justify-between rounded-full border border-amber-300/40 shadow-xl">
+      
+      <!-- СЛОТ ДЛЯ ВАШЕГО ЛОГОТИПА-ПТИЦЫ -->
+      <a href="#" class="flex items-center gap-3.5 group">
+        <div id="brand-logo-slot" class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#060E11] via-[#00524D] to-[#F59E0B] flex items-center justify-center text-white shadow-md shadow-black/30 group-hover:scale-105 border border-amber-300/40 transition">
+          <svg class="w-6 h-6 text-[#FBBF24]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="7.5" cy="12" r="4.5"></circle>
+            <circle cx="7.5" cy="12" r="1.5" fill="currentColor"></circle>
+            <path d="M12 12h9"></path>
+            <path d="M17 12v3"></path>
+            <path d="M20 12v2"></path>
+          </svg>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="text-xl font-black tracking-tight text-[#071518] uppercase">КЛЮЧ</span>
+            <span class="font-mono-tag text-[10px] font-bold text-[#060E11] bg-[#FBBF24] px-2.5 py-0.5 rounded-full shadow-xs">PRO 3.2</span>
+          </div>
+          <span class="text-[9px] font-bold text-slate-400 block tracking-widest uppercase">БЮРО ПРИКЛАДНОЙ ОНОМАСТИКИ</span>
+        </div>
+      </a>
+
+      <!-- НАВИГАЦИЯ -->
+      <nav class="hidden md:flex items-center gap-8 text-xs font-bold uppercase tracking-wider text-slate-600">
+        <a href="#about" class="hover:text-[#F59E0B] transition">01 / Три фильтра</a>
+        <a href="#laboratory" class="hover:text-[#F59E0B] transition">02 / Рентген и примерка</a>
+        <a href="#comparison" class="hover:text-[#F59E0B] transition">03 / Сравнение с ботами</a>
+        <a href="#stresstest" class="hover:text-[#F59E0B] transition">04 / 3 Теста</a>
+      </nav>
+
+      <!-- ПРАВАЯ ЗОЛОТАЯ КНОПКА -->
+      <a href="#terminal" class="btn-gold-action px-6 py-2.5 text-xs uppercase tracking-wider flex items-center gap-2">
+        <span>К терминалу</span>
+        <span>↓</span>
+      </a>
+
+    </div>
+  </header>
+
+  <!-- ГЛАВНЫЙ ЭКРАН HERO -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-8 pt-4 pb-14">
+    
+    <div class="text-center max-w-4xl mx-auto mb-10">
+      
+      <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-[#0E1E23] border border-amber-400/30 text-[#FDE68A] text-xs font-bold mb-6 shadow-md">
+        <span class="w-2.5 h-2.5 rounded-full bg-[#FBBF24] animate-pulse"></span>
+        <span>Фоносемантика речи · Нормы ст. 1483 ГК РФ · Закон памяти Миллера (7±2)</span>
+      </div>
+
+      <!-- ВЫСОКОКОНТРАСТНЫЙ ЗАГОЛОВОК -->
+      <h1 class="text-4xl sm:text-6xl lg:text-[76px] font-black text-white leading-[1.04] tracking-tight mb-5">
+        Имя бренда, в которое заложен <br>
+        <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#FDE68A] via-[#FBBF24] to-[#F59E0B]">код восприятия.</span>
+      </h1>
+
+      <p class="text-base sm:text-lg text-slate-300 font-normal max-w-2xl mx-auto leading-relaxed mb-8">
+        Слово — первый физический контакт с аудиторией. За доли секунды подсознание считывает статус, надежность и масштаб бизнеса. Мы создаем цельные имена, готовые к защите в Роспатенте.
+      </p>
+
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-3.5">
+        <a href="#terminal" class="w-full sm:w-auto btn-gold-action px-9 py-4 text-xs uppercase tracking-wider text-center">
+          Синтезировать имена →
+        </a>
+        <a href="#about" class="w-full sm:w-auto px-7 py-4 rounded-full bg-[#0E1E23] hover:bg-[#142C33] text-white font-bold text-xs uppercase tracking-wider transition border border-white/20 text-center">
+          Как устроен звук
+        </a>
+      </div>
+    </div>
+
+    <!-- ВИТРИНА HERO: 3D-КЛЮЧ -->
+    <div class="max-w-4xl mx-auto hero-stage-podium p-8 sm:p-14 relative overflow-hidden flex flex-col items-center justify-center min-h-[380px] key-stage-rig">
+      
+      <div class="absolute w-[460px] h-[460px] rounded-full border border-amber-300/20"></div>
+      <div class="absolute w-[260px] h-[260px] rounded-full bg-gradient-to-tr from-[#00524D]/60 via-[#F59E0B]/25 to-transparent blur-3xl aurora-pulse-orbit"></div>
+
+      <div class="relative z-20 flex flex-col items-center justify-center pt-2">
+        <div class="key-3d-actor cursor-pointer" title="КЛЮЧ: 4.0с плавный цикл">
+          <svg class="w-36 h-36 sm:w-40 sm:h-40" viewBox="0 0 160 160" fill="none">
+            <defs>
+              <linearGradient id="goldTitaniumGrad" x1="10" y1="10" x2="150" y2="150" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#FFFFFF"/>
+                <stop offset="25%" stop-color="#FDE68A"/>
+                <stop offset="55%" stop-color="#F59E0B"/>
+                <stop offset="85%" stop-color="#00524D"/>
+                <stop offset="100%" stop-color="#060E11"/>
+              </linearGradient>
+              <radialGradient id="goldRingShine" cx="54" cy="80" r="28" gradientUnits="userSpaceOnUse">
+                <stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.95"/>
+                <stop offset="45%" stop-color="#FDE68A" stop-opacity="0.85"/>
+                <stop offset="100%" stop-color="#F59E0B" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+            <circle cx="54" cy="80" r="30" stroke="url(#goldTitaniumGrad)" stroke-width="14" stroke-linecap="round"/>
+            <circle cx="54" cy="80" r="16" fill="url(#goldRingShine)"/>
+            <path d="M84 80 L134 80" stroke="url(#goldTitaniumGrad)" stroke-width="14" stroke-linecap="round"/>
+            <path d="M116 80 L116 100" stroke="url(#goldTitaniumGrad)" stroke-width="10" stroke-linecap="round"/>
+            <path d="M130 80 L130 95" stroke="url(#goldTitaniumGrad)" stroke-width="10" stroke-linecap="round"/>
+            <circle cx="134" cy="80" r="3" fill="#FBBF24"/>
+          </svg>
+        </div>
+
+        <div class="shockwave-gold-ring" style="top: 74%;"></div>
+        <div class="w-36 h-5 rounded-full bg-black/70 key-sync-shadow mt-1"></div>
+      </div>
+
+      <div class="relative z-20 mt-8 flex items-center justify-center gap-3">
+        <div class="h-[1px] w-14 sm:w-24 bg-gradient-to-r from-transparent to-[#FBBF24]/70"></div>
+        <div class="flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-amber-300/30 backdrop-blur-md">
+          <span class="w-2 h-2 rounded-full bg-[#FBBF24] animate-ping"></span>
+          <span class="text-xs font-mono-tag font-semibold text-[#FDE68A] tracking-widest uppercase">
+            Фоносемантический расчет и регистрация знака
+          </span>
+        </div>
+        <div class="h-[1px] w-14 sm:w-24 bg-gradient-to-l from-transparent to-[#FBBF24]/70"></div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- СЕКЦИЯ 1: ТРИ ФИЛЬТРА -->
+  <section id="about" class="max-w-7xl mx-auto px-4 sm:px-8 py-10">
+    
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start mb-8">
+      <div class="lg:col-span-5">
+        <span class="text-xs font-extrabold uppercase tracking-wider text-[#FBBF24] block mb-1">Научный фундамент</span>
+        <h2 class="text-3xl sm:text-4xl font-black text-white tracking-tight">
+          Как работает метод «КЛЮЧ»?
+        </h2>
+      </div>
+      <div class="lg:col-span-7">
+        <p class="text-base text-slate-300 font-normal leading-relaxed">
+          Научно обоснованная система отбора коммерческих названий. Мы объединили объективную физику звукосимволизма А. П. Журавлёва, когнитивный закон объема памяти Дж. Миллера и юридический фильтр ст. 1483 ГК РФ.
+        </p>
+      </div>
+    </div>
+
+    <!-- ТРИ СВЕТЛЫЕ КАРТОЧКИ -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+      
+      <div class="lg:col-span-6 block-porcelain-light p-8 sm:p-10 flex flex-col justify-between min-h-[290px]">
+        <div>
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-extrabold text-[#D97706] uppercase tracking-wider">01 · Две стратегии нейминга</span>
+            <span class="text-[11px] font-mono-tag font-bold text-amber-700 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-full">8 вариантов</span>
+          </div>
+          <h3 class="text-2xl font-black text-[#071518] mb-3">
+            8 концепций под задачу вашего бизнеса
+          </h3>
+          <p class="text-base text-slate-600 font-normal leading-relaxed">
+            Сервис создает <b>4 предметные метафоры со сдвигом контекста</b> (как «Точка» для банка или «Самокат» для доставки) и <b>4 благозвучных авторских неологизма</b> на открытых слогах.
+          </p>
+        </div>
+        <div class="pt-5 border-t border-slate-100 flex items-center justify-between text-xs font-bold text-amber-700">
+          <span>С готовыми слоганами и свободным .RU доменом</span>
+          <span>→</span>
+        </div>
+      </div>
+
+      <div class="lg:col-span-3 block-porcelain-light p-8 flex flex-col justify-between min-h-[290px]">
+        <div>
+          <span class="text-[10px] font-bold text-[#060E11] bg-[#FBBF24] px-2.5 py-0.5 rounded-full uppercase font-black">
+            ст. 1483 ГК РФ
+          </span>
+          <h3 class="text-xl font-black text-[#071518] mt-4 mb-2">
+            Защита от отказов
+          </h3>
+          <p class="text-sm text-slate-600 font-normal leading-relaxed">
+            Отсекаем общеупотребимый отраслевой канцелярит. Название готово к проверке на тождество в ФИПС.
+          </p>
+        </div>
+        <div class="text-xs font-bold text-emerald-700 flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+          <span>Реестр знаков Роспатента</span>
+        </div>
+      </div>
+
+      <div class="lg:col-span-3 block-porcelain-light p-8 flex flex-col justify-between min-h-[290px]">
+        <div>
+          <span class="text-[10px] font-bold text-[#060E11] bg-[#FDE68A] px-2.5 py-0.5 rounded-full uppercase font-black">
+            Закон Миллера
+          </span>
+          <h3 class="text-xl font-black text-[#071518] mt-4 mb-2">
+            5–7 букв для памяти
+          </h3>
+          <p class="text-sm text-slate-600 font-normal leading-relaxed">
+            Кратковременная память человека удерживает короткие формы. Слово кодируется в сознании за 0.3 секунды.
+          </p>
+        </div>
+        <div class="text-xs font-bold text-amber-700 flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+          <span>Формула 7±2</span>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- СЕКЦИЯ 2: ИНТЕРАКТИВНАЯ ЭКСПЕРТИЗА -->
+  <section id="laboratory" class="max-w-7xl mx-auto px-4 sm:px-8 py-10">
+    
+    <div class="block-porcelain-light p-8 sm:p-12">
+      
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between pb-6 mb-8 border-b border-slate-100 gap-4">
+        <div>
+          <span class="text-xs font-bold text-amber-700 uppercase tracking-wider block mb-1">Лингвистическая экспертиза</span>
+          <h2 class="text-2xl sm:text-3xl font-black text-[#071518] tracking-tight">
+            Рентген слова и примерка в городской среде
+          </h2>
+        </div>
+        
+        <div class="flex items-center gap-1.5 p-1 bg-slate-100 rounded-full shadow-xs">
+          <button onclick="switchSampleWord('atlant')" id="btn-word-atlant" class="pill-filter-tab active px-4 py-1.5 text-xs cursor-pointer">Атлант</button>
+          <button onclick="switchSampleWord('verida')" id="btn-word-verida" class="pill-filter-tab px-4 py-1.5 text-xs cursor-pointer">Верида</button>
+          <button onclick="switchSampleWord('blik')" id="btn-word-blik" class="pill-filter-tab px-4 py-1.5 text-xs cursor-pointer">Блик</button>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- ЛЕВАЯ КАРТОЧКА: ПАСПОРТ СЛОВА -->
+        <div class="lg:col-span-5 bg-gradient-to-b from-[#102428] to-[#061114] border border-amber-400/25 rounded-3xl p-8 flex flex-col justify-between min-h-[420px] relative overflow-hidden shadow-xl">
+          <div class="relative z-10">
+            <div class="flex items-center justify-between mb-6">
+              <span class="text-xs font-bold text-slate-300 uppercase tracking-wider">Фонетическая форма</span>
+              <span id="card-mktu" class="text-xs font-bold text-[#FDE68A] bg-amber-400/10 px-2.5 py-0.5 rounded-full border border-amber-400/30">Класс 37 / 42 МКТУ</span>
+            </div>
+            <div id="card-name" class="text-4xl sm:text-5xl font-black text-white tracking-tight mb-2">АТЛАНТ</div>
+            <p id="card-tone" class="text-sm text-slate-300 font-medium leading-relaxed">Опора, устойчивость, фундаментальный масштаб</p>
+          </div>
+
+          <div class="pt-6 border-t border-white/10 flex items-end justify-between relative z-10 mt-6">
+            <div>
+              <span class="text-[10px] font-bold text-slate-400 block uppercase tracking-wider">Индекс силы знака</span>
+              <span id="card-badge" class="text-xs text-[#FDE68A] font-bold flex items-center gap-1 mt-0.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-[#FBBF24]"></span>
+                Высокая различимость
+              </span>
+            </div>
+            <div class="text-right">
+              <span id="card-score" class="text-4xl font-black text-white">96</span>
+              <span class="text-xs text-slate-400 block">/ 100</span>
+            </div>
+          </div>
+          <div id="card-glow" class="absolute -right-8 -bottom-8 w-52 h-52 rounded-full blur-3xl transition-all duration-700 pointer-events-none" style="background-color: rgba(225, 29, 72, 0.45);"></div>
+        </div>
+
+        <!-- ПРАВАЯ ПАНЕЛЬ: ВЫВЕСКА + ПАЛИТРА -->
+        <div class="lg:col-span-7 space-y-6">
+          
+          <div>
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-bold uppercase tracking-wider text-slate-700">Где работает название:</span>
+              <div class="flex items-center gap-1">
+                <button onclick="setMockupTab('sign')" id="tab-mock-sign" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-[#071518] text-white cursor-pointer">Вывеска на здании</button>
+                <button onclick="setMockupTab('tg')" id="tab-mock-tg" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-100 border border-slate-200 text-slate-600 cursor-pointer">Telegram-канал</button>
+                <button onclick="setMockupTab('search')" id="tab-mock-search" class="px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-100 border border-slate-200 text-slate-600 cursor-pointer">Поиск Яндекса</button>
+              </div>
+            </div>
+
+            <div id="view-mock-sign" class="p-8 rounded-2xl bg-gradient-to-b from-white via-slate-50 to-slate-100 border border-slate-200 text-center relative overflow-hidden shadow-inner">
+              <div class="font-mono-tag text-[10px] text-slate-400 uppercase tracking-widest mb-2 font-bold">Архитектурный фасад компании</div>
+              <div id="mock-sign-word" class="text-3xl sm:text-4xl font-black tracking-widest uppercase text-[#071518]" style="text-shadow: 0 2px 6px rgba(7, 21, 24, 0.1);">
+                АТЛАНТ
+              </div>
+              <div class="font-mono-tag text-[10px] text-amber-700 uppercase tracking-widest mt-2 font-bold">ОФИЦИАЛЬНОЕ ПРЕДСТАВИТЕЛЬСТВО</div>
+            </div>
+
+            <div id="view-mock-tg" class="hidden p-5 rounded-2xl bg-white border border-slate-200 shadow-xs">
+              <div class="flex items-center gap-3">
+                <div id="mock-tg-avatar" class="w-11 h-11 rounded-full text-white font-black flex items-center justify-center text-sm shadow-sm" style="background-color: #E11D48;">А</div>
+                <div>
+                  <div class="flex items-center gap-1.5">
+                    <span id="mock-tg-title" class="text-sm font-bold text-[#071518]">Атлант</span>
+                    <span class="text-xs text-blue-500 font-bold">✓</span>
+                  </div>
+                  <div class="text-xs text-slate-500">Официальный верифицированный канал компании</div>
+                </div>
+              </div>
+            </div>
+
+            <div id="view-mock-search" class="hidden p-5 rounded-2xl bg-white border border-slate-200 shadow-xs">
+              <div class="text-xs text-emerald-700 font-mono-tag flex items-center gap-1">
+                <span id="mock-search-domain">atlant.ru</span>
+                <span class="text-slate-400">› главная</span>
+              </div>
+              <div id="mock-search-header" class="text-sm font-bold text-blue-600 hover:underline">Атлант — Официальный сайт компании</div>
+              <div class="text-xs text-slate-600 mt-1">Официальное представительство бренда. Комплексные решения для бизнеса.</div>
+            </div>
+          </div>
+
+          <div>
+            <div class="text-xs font-bold uppercase tracking-wider text-slate-700 mb-2.5">
+              Цветовая синестезия имени (психолингвистический спектр Журавлёва):
+            </div>
+            <div id="swatches-grid" class="grid grid-cols-1 sm:grid-cols-3 gap-3.5"></div>
+          </div>
+
+          <div class="p-4 rounded-2xl bg-slate-50 border border-slate-200">
+            <div class="flex items-center justify-between text-xs font-bold uppercase text-[#071518] mb-1">
+              <span>Фонетический разбор звуков:</span>
+              <span class="text-amber-800 font-bold bg-amber-100 border border-amber-200 px-2 py-0.5 rounded">0.3 сек</span>
+            </div>
+            <p id="card-phonetics" class="text-sm text-slate-700 leading-relaxed font-normal">
+              Взрывной глухой [т] придает контуру твердость, а широкие гласные [а] сообщают мощный масштаб и силу лидерства.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- СЕКЦИЯ 3: СРАВНЕНИЕ (ПОЛНОСТЬЮ ПЕРЕРАБОТАНА: СВЕТЛЫЙ ФАРФОРОВЫЙ КОРПУС С ВЫСОКИМ КОНТРАСТОМ) -->
+  <section id="comparison" class="max-w-7xl mx-auto px-4 sm:px-8 py-10">
+    
+    <div class="block-porcelain-light p-8 sm:p-12">
+      
+      <!-- Заголовок и переключатель категорий внутри блока -->
+      <div class="flex flex-col md:flex-row md:items-end justify-between pb-6 mb-8 border-b border-slate-100 gap-4">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-amber-700 block mb-1">Сравнительный анализ</span>
+          <h2 class="text-2xl sm:text-3xl font-black text-[#071518] tracking-tight">
+            Почему обычный чат-бот не решает задачу?
+          </h2>
+        </div>
+        
+        <div class="flex items-center gap-1.5 p-1 bg-slate-100 rounded-full shadow-xs">
+          <button onclick="setBattleCategory('build')" id="btn-bat-build" class="pill-filter-tab active px-4 py-1.5 text-xs cursor-pointer">🏗️ Строительство</button>
+          <button onclick="setBattleCategory('coffee')" id="btn-bat-coffee" class="pill-filter-tab px-4 py-1.5 text-xs cursor-pointer">☕ Общепит</button>
+          <button onclick="setBattleCategory('tech')" id="btn-bat-tech" class="pill-filter-tab px-4 py-1.5 text-xs cursor-pointer">💳 Финтех</button>
+        </div>
+      </div>
+
+      <!-- Две сопоставительные колонки: До (Чат-бот) и После (Бюро КЛЮЧ) -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
+        
+        <!-- КОЛОНКА 1: ОБЫЧНЫЙ ЧАТ-БОТ (ПРИГЛУШЕННАЯ СВЕТЛАЯ КАРТОЧКА С КРАСНЫМИ АКЦЕНТАМИ) -->
+        <div class="p-7 rounded-3xl bg-rose-50/50 border border-rose-200/80 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between pb-3 mb-5 border-b border-rose-200/60">
+              <span class="text-xs font-black text-rose-700 uppercase tracking-wider">[ ОБЫЧНЫЙ ЧАТ-БОТ ]</span>
+              <span class="text-xs font-bold text-rose-700 bg-rose-100 px-2.5 py-0.5 rounded-full border border-rose-200">Случайный перебор</span>
+            </div>
+
+            <div class="p-5 rounded-2xl bg-white border border-rose-200/80 mb-5 space-y-1 shadow-xs">
+              <div class="text-[10px] font-bold text-slate-400 uppercase">Что предлагает бот:</div>
+              <div id="bat-bot-word" class="text-2xl sm:text-3xl font-black text-rose-950">СтройКомплект-Ресурс</div>
+              <div id="bat-bot-desc" class="text-xs text-slate-500 font-medium">Склейка из 3 корней. 19 символов. Распадается в памяти.</div>
+            </div>
+
+            <ul class="space-y-4 text-sm sm:text-base text-slate-700 leading-relaxed mb-6 font-normal">
+              <li class="flex items-start gap-3">
+                <span class="w-5 h-5 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center font-black text-xs shrink-0 mt-0.5">✕</span>
+                <span id="bat-bot-p1"><b>Отказ Роспатента (ст. 1483 ГК РФ):</b> прямое описание сферы деятельности нельзя закрепить в собственность.</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="w-5 h-5 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center font-black text-xs shrink-0 mt-0.5">✕</span>
+                <span id="bat-bot-p2"><b>Трудное произношение:</b> затор согласных [йк, мпл, ктр] заставляет людей запинаться.</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="p-3.5 rounded-xl bg-rose-100 border border-rose-200 text-xs font-bold text-rose-900 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-rose-600 animate-pulse"></span>
+            <span>Риск: Гарантированный отказ в регистрации знака</span>
+          </div>
+        </div>
+
+        <!-- КОЛОНКА 2: БЮРО «КЛЮЧ» (СВЕТЛАЯ ПРЕМИУМ-КАРТОЧКА С ИЗУМРУДНО-ЗОЛОТЫМ БЛЕСКОМ) -->
+        <div class="p-7 rounded-3xl bg-gradient-to-b from-[#F0FDF4] to-[#FFFFFF] border-2 border-emerald-500/30 flex flex-col justify-between shadow-sm">
+          <div>
+            <div class="flex items-center justify-between pb-3 mb-5 border-b border-emerald-100">
+              <span class="text-xs font-black text-[#00524D] uppercase tracking-wider flex items-center gap-1.5">
+                <svg class="w-4 h-4 text-[#008F7A]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+                  <circle cx="7.5" cy="12" r="4.5"></circle>
+                  <path d="M12 12h9"></path>
+                </svg>
+                [ БЮРО «КЛЮЧ» ]
+              </span>
+              <span class="text-xs font-extrabold text-[#060E11] bg-[#FBBF24] px-3 py-0.5 rounded-full shadow-xs">
+                Юридически чисто
+              </span>
+            </div>
+
+            <div class="p-5 rounded-2xl bg-white border border-emerald-200/80 mb-5 space-y-1 shadow-xs">
+              <div class="text-[10px] font-bold text-amber-700 uppercase">Решение с метафорическим сдвигом:</div>
+              <div id="bat-lab-word" class="text-2xl sm:text-3xl font-black text-[#071518]">Атлант</div>
+              <div id="bat-lab-desc" class="text-xs text-slate-500 font-medium">Ровно 1 слово (6 букв). Метафора физической устойчивости.</div>
+            </div>
+
+            <ul class="space-y-4 text-sm sm:text-base text-slate-800 leading-relaxed mb-6 font-normal">
+              <li class="flex items-start gap-3">
+                <span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-black text-xs shrink-0 mt-0.5">✓</span>
+                <span id="bat-lab-p1"><b>Охраноспособность:</b> фантазийное слово в строительной сфере (Класс 37 МКТУ) легко защитить законом.</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-black text-xs shrink-0 mt-0.5">✓</span>
+                <span id="bat-lab-p2"><b>Четкий каркас:</b> открытый гласный [а] и взрывной [т] звучат уверенно и авторитетно.</span>
+              </li>
+            </ul>
+          </div>
+
+          <div class="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-xs font-bold text-emerald-900 flex items-center justify-between">
+            <span class="flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+              <span>Статус: Пригодно к индивидуализации</span>
+            </span>
+            <span class="text-amber-700 font-black text-sm">Brand Index: 96/100</span>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+  <!-- СЕКЦИЯ 4: 3 БЫТОВЫХ СТРЕСС-ТЕСТА -->
+  <section id="stresstest" class="max-w-7xl mx-auto px-4 sm:px-8 py-10">
+    <div class="block-porcelain-light p-8 sm:p-12">
+      
+      <div class="max-w-xl mb-8">
+        <span class="text-xs font-bold text-amber-700 uppercase tracking-wider block mb-1">Проверка практикой</span>
+        <h2 class="text-2xl sm:text-3xl font-black text-[#071518] mb-2">
+          3 бытовых стресс-теста перед запуском бренда
+        </h2>
+        <p class="text-base text-slate-600 font-normal leading-relaxed">
+          Прежде чем подавать заявку в Роспатент и заказывать световую вывеску, проверьте имя тремя реальными ситуациями:
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-8">
+        
+        <div class="p-6 rounded-2xl bg-[#F8FAF9] border border-slate-200 space-y-2.5 shadow-xs">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#D97706] to-[#FBBF24] text-[#060E11] font-black flex items-center justify-center text-xs shadow-md">
+            01
+          </div>
+          <div class="font-black text-[#071518] text-base">Тест в шуме (Тест такси)</div>
+          <p class="text-sm text-slate-600 leading-relaxed font-normal">
+            Назовите бренд водителю в городском шуме. Если собеседник переспрашивает: <i>«Как-как?»</i> — у слова смазанная фонетика, сарафанное радио не сработает.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-[#F8FAF9] border border-slate-200 space-y-2.5 shadow-xs">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#D97706] to-[#FBBF24] text-[#060E11] font-black flex items-center justify-center text-xs shadow-md">
+            02
+          </div>
+          <div class="font-black text-[#071518] text-base">Диктовка по телефону</div>
+          <p class="text-sm text-slate-600 leading-relaxed font-normal">
+            Продиктуйте клиенту адрес сайта на латинице. Написание должно быть очевидным с первого раза без мучений вроде <i>«С как доллар, И с точкой»</i>.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-[#F8FAF9] border border-slate-200 space-y-2.5 shadow-xs">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#D97706] to-[#FBBF24] text-[#060E11] font-black flex items-center justify-center text-xs shadow-md">
+            03
+          </div>
+          <div class="font-black text-[#071518] text-base">Закон Миллера (Память)</div>
+          <p class="text-sm text-slate-600 leading-relaxed font-normal">
+            Оперативная память удерживает цельные образы. Слово из 5–7 букв запоминается целиком, а длинные склейки стираются из памяти за 10 секунд.
+          </p>
+        </div>
+
+      </div>
+
+      <div class="pt-5 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <span class="text-sm font-medium text-slate-500">Все названия в генераторе соответствуют этим нормам</span>
+        <a href="#terminal" class="btn-gold-action px-6 py-3 text-xs uppercase tracking-wider">
+          Перейти к терминалу ↓
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ЯКОРЬ ПОД ТЕРМИНАЛ -->
+  <section id="terminal" class="max-w-7xl mx-auto px-4 sm:px-8 py-10 text-center">
+    <div class="block-porcelain-light p-10 sm:p-14 border border-amber-300/40">
+      <span class="text-xs font-bold text-amber-700 uppercase tracking-widest block mb-2">Генератор и проверка</span>
+      <h2 class="text-3xl font-black text-[#071518] tracking-tight mb-3">
+        Лабораторный комплекс «КЛЮЧ PRO»
+      </h2>
+      <p class="text-base text-slate-600 font-normal max-w-lg mx-auto">
+        Сгенерируйте сбалансированную линейку коммерческих имен или проведите фоносемантический аудит слова
+      </p>
+    </div>
+  </section>
+
+  <!-- ПОДВАЛ -->
+  <footer class="max-w-7xl mx-auto px-4 sm:px-8 py-8 text-xs font-bold text-slate-400">
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-white/10">
+      <div class="flex items-center gap-2.5">
+        <div class="w-7 h-7 rounded-lg bg-[#00524D] text-[#FBBF24] font-bold flex items-center justify-center text-xs border border-amber-400/30">
+          <svg class="w-3.5 h-3.5 text-[#FBBF24]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3">
+            <circle cx="7.5" cy="12" r="4.5"></circle>
+            <path d="M12 12h9"></path>
+          </svg>
+        </div>
+        <span class="font-black text-white">БЮРО «КЛЮЧ» PRO 3.2</span>
+        <span>· Научно-исследовательский проект (Тема № 9)</span>
+      </div>
+      <div>Фоносемантическая модель Журавлёва · Реестр знаков ФИПС · 2026</div>
+    </div>
+  </footer>
+
+</div>
+
+<!-- СКРИПТ: ИНТЕРАКТИВ И СИНЕСТЕЗИЯ -->
+<script>
+  const sampleWords = {
+    atlant: {
+      name: 'АТЛАНТ',
+      tone: 'Опора, устойчивость, фундаментальный масштаб',
+      score: '96',
+      mktu: 'Класс 37 / 42 МКТУ',
+      phonetics: 'Взрывной глухой [т] дает контуру твердость, а широкие гласные [а] формируют мощный масштаб и силу лидерства.',
+      glowColor: 'rgba(225, 29, 72, 0.45)',
+      domain: 'atlant.ru',
+      avatar: 'А',
+      avatarBg: '#E11D48',
+      badgeColor: '#E11D48',
+      swatches: [
+        { hex: '#E11D48', name: 'Рубиновый алый', role: 'Импульс и сила звука [А]' },
+        { hex: '#D97706', name: 'Теплый янтарь', role: 'Физическая опора' },
+        { hex: '#0F172A', name: 'Глубокий обсидиан', role: 'Монолитный контур' }
+      ]
+    },
+    verida: {
+      name: 'ВЕРИДА',
+      tone: 'Искреннее доверие, спокойствие, медицина',
+      score: '94',
+      mktu: 'Класс 44 / 05 МКТУ',
+      phonetics: 'Гласный [е] передает надежность и здоровье, звонкий [и] дает технологичную ясность, а открытый [а] снимает барьеры.',
+      glowColor: 'rgba(0, 175, 185, 0.45)',
+      domain: 'verida.ru',
+      avatar: 'В',
+      avatarBg: '#059669',
+      badgeColor: '#00AFB9',
+      swatches: [
+        { hex: '#059669', name: 'Изумрудный', role: 'Здоровье и покой звука [Е]' },
+        { hex: '#00AFB9', name: 'Полярный циан', role: 'Ясность и контакт звука [И]' },
+        { hex: '#DAF1DE', name: 'Ледяное серебро', role: 'Чистота основы' }
+      ]
+    },
+    blik: {
+      name: 'БЛИК',
+      tone: 'Эстетика, свет, визуальная чистота',
+      score: '92',
+      mktu: 'Класс 03 / 44 МКТУ',
+      phonetics: 'Гласный [и] психоакустически связывается со светом и тонкостью. Смычно-проходной комплекс [бл] создает резкий фокус.',
+      glowColor: 'rgba(56, 189, 248, 0.45)',
+      domain: 'blik.ru',
+      avatar: 'Б',
+      avatarBg: '#2563EB',
+      badgeColor: '#2563EB',
+      swatches: [
+        { hex: '#2563EB', name: 'Сапфировый кобальт', role: 'Световой луч звука [И]' },
+        { hex: '#9333EA', name: 'Яркий пурпур', role: 'Эстетический акцент' },
+        { hex: '#FFFFFF', name: 'Жидкая платина', role: 'Зеркальный блик' }
+      ]
+    }
+  };
+
+  function switchSampleWord(key) {
+    const data = sampleWords[key];
+    if (!data) return;
+
+    ['atlant', 'verida', 'blik'].forEach(k => {
+      const btn = document.getElementById(`btn-word-${k}`);
+      if (btn) btn.classList.toggle('active', k === key);
+    });
+
+    document.getElementById('card-name').textContent = data.name;
+    document.getElementById('card-tone').textContent = data.tone;
+    document.getElementById('card-score').textContent = data.score;
+    document.getElementById('card-mktu').textContent = data.mktu;
+    document.getElementById('card-phonetics').textContent = data.phonetics;
+    document.getElementById('card-glow').style.backgroundColor = data.glowColor;
+
+    document.getElementById('mock-sign-word').textContent = data.name;
+    document.getElementById('mock-tg-title').textContent = data.name.charAt(0) + data.name.slice(1).toLowerCase();
+    document.getElementById('mock-tg-avatar').textContent = data.avatar;
+    document.getElementById('mock-tg-avatar').style.backgroundColor = data.avatarBg;
+    document.getElementById('mock-search-domain').textContent = data.domain;
+    document.getElementById('mock-search-header').textContent = `${data.name.charAt(0) + data.name.slice(1).toLowerCase()} — Официальный сайт компании`;
+
+    const grid = document.getElementById('swatches-grid');
+    grid.innerHTML = data.swatches.map(s => `
+      <div class="p-3.5 rounded-2xl bg-white border border-slate-200 shadow-2xs flex flex-col justify-between">
+        <div class="h-10 rounded-xl w-full mb-2.5 border border-slate-100" style="background-color: ${s.hex}"></div>
+        <div>
+          <div class="text-xs font-bold text-[#071518] leading-tight">${s.name}</div>
+          <div class="font-mono-tag text-[10px] text-slate-400 mt-0.5">${s.hex}</div>
+          <div class="text-[11px] font-semibold mt-1" style="color: ${data.badgeColor}">${s.role}</div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function setMockupTab(env) {
+    ['sign', 'tg', 'search'].forEach(e => {
+      document.getElementById(`view-mock-${e}`).classList.add('hidden');
+      const b = document.getElementById(`tab-mock-${e}`);
+      b.className = 'px-3 py-1.5 text-xs font-bold rounded-lg bg-slate-100 border border-slate-200 text-slate-600 cursor-pointer';
+    });
+    document.getElementById(`view-mock-${env}`).classList.remove('hidden');
+    document.getElementById(`tab-mock-${env}`).className = 'px-3 py-1.5 text-xs font-bold rounded-lg bg-[#071518] text-white cursor-pointer';
+  }
+
+  const battlePresets = {
+    build: {
+      botWord: 'СтройКомплект-Ресурс',
+      botDesc: 'Склейка из 3 корней. 19 символов. Распадается в памяти.',
+      botP1: '<b>Отказ Роспатента (ст. 1483 ГК РФ):</b> прямое описание сферы деятельности нельзя закрепить в собственность.',
+      botP2: '<b>Трудное произношение:</b> затор согласных [йк, мпл, ктр] заставляет людей запинаться.',
+      labWord: 'Атлант',
+      labDesc: 'Ровно 1 слово (6 букв). Метафора физической устойчивости.',
+      labP1: '<b>Охраноспособность:</b> фантазийное слово в строительной сфере (Класс 37 МКТУ) легко защитить законом.',
+      labP2: '<b>Четкий каркас:</b> открытый гласный [а] и взрывной [т] звучат уверенно и авторитетно.'
+    },
+    coffee: {
+      botWord: 'КофеТоп-Лаб',
+      botDesc: 'Склейка из англицизмов и приставок-паразитов (-Топ, -Лаб). Размытый образ.',
+      botP1: '<b>Семантическая пустота:</b> приставка «Лаб» относится к лабораториям, а не к зерну и теплу.',
+      botP2: '<b>Торговый шум:</b> сотни одинаковых названий с корнем «Кофе-» теряются на вывесках города.',
+      labWord: 'Жернов',
+      labDesc: 'Традиция ремесленного помола и тепла. Исконный корень, вызывающий доверие.',
+      labP1: '<b>Охраноспособность:</b> чистая регистрация в сфере напитков (Классы 30 и 43 МКТУ).',
+      labP2: '<b>Психоакустика Журавлёва:</b> звонкий сонорный [р] и мягкий [в] передают крафтовость.'
+    },
+    tech: {
+      botWord: 'ФинТехСофт-Плюс',
+      botDesc: 'Канцелярит из сухих терминов. Три англицизма подряд. 15 символов.',
+      botP1: '<b>Отказ Роспатента:</b> термины «Фин», «Тех», «Софт» являются общеупотребимыми обозначениями отрасли.',
+      botP2: '<b>Сложность диктовки:</b> по телефону путают написание дефиса и окончания «Плюс» (Plus / Plyus).',
+      labWord: 'Квант',
+      labDesc: 'Неделимая единица энергии. Ассоциация со сверхскоростью, точностью и IT.',
+      labP1: '<b>Юридическая защита:</b> фантазийный термин в сфере софта и финансов (Классы 36 и 42 МКТУ).',
+      labP2: '<b>Когнитивная емкость:</b> ровно 5 букв. Мгновенное удержание в памяти и эталонный домен kvant.ru.'
+    }
+  };
+
+  function setBattleCategory(cat) {
+    const d = battlePresets[cat];
+    if (!d) return;
+
+    ['build', 'coffee', 'tech'].forEach(k => {
+      const btn = document.getElementById(`btn-bat-${k}`);
+      if (btn) btn.classList.toggle('active', k === cat);
+    });
+
+    document.getElementById('bat-bot-word').textContent = d.botWord;
+    document.getElementById('bat-bot-desc').textContent = d.botDesc;
+    document.getElementById('bat-bot-p1').innerHTML = d.botP1;
+    document.getElementById('bat-bot-p2').innerHTML = d.botP2;
+
+    document.getElementById('bat-lab-word').textContent = d.labWord;
+    document.getElementById('bat-lab-desc').textContent = d.labDesc;
+    document.getElementById('bat-lab-p1').innerHTML = d.labP1;
+    document.getElementById('bat-lab-p2').innerHTML = d.labP2;
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    switchSampleWord('atlant');
+    setBattleCategory('build');
+  });
+</script>
+
+</body>
+</html>
