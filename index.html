@@ -818,14 +818,14 @@
     </div>
   </div>
 </div>
-<!-- МОДАЛЬНОЕ ОКНО: ПАСПОРТ БРЕНДА (ШИРОКИЙ ФОРМАТ + КРУПНЫЙ ШРИФТ ДЛЯ ПРОЕКТОРА) -->
+<!-- МОДАЛЬНОЕ ОКНО: ПАСПОРТ БРЕНДА (БОЛЬШОЙ И ШИРОКИЙ ФОРМАТ ДЛЯ СЛАЙДА) -->
 <div id="passport-modal" class="fixed inset-0 z-50 bg-[#060E11]/80 backdrop-blur-md hidden flex items-center justify-center p-4 overflow-y-auto">
-  <div class="max-w-2xl w-full p-8 sm:p-10 bg-white text-slate-900 shadow-2xl relative my-8 border-2 border-amber-300/70 rounded-[32px]" id="passport-print-zone">
+  <div class="max-w-3xl w-full p-8 sm:p-10 bg-white text-slate-900 shadow-2xl relative my-8 border-2 border-amber-300/80 rounded-[32px]" id="passport-print-zone">
     
     <!-- ШАПКА: С ЗОЛОТЫМ КЛЮЧОМ -->
-    <div class="flex items-center justify-between pb-4 mb-6 border-b border-slate-200 relative z-10">
+    <div class="flex items-center justify-between pb-4 mb-6 border-b-2 border-slate-100 relative z-10">
       <div class="flex items-center gap-3.5">
-        <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#060E11] via-[#00524D] to-[#F59E0B] flex items-center justify-center border border-amber-300/60 shadow-sm shrink-0">
+        <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#060E11] via-[#00524D] to-[#F59E0B] flex items-center justify-center border border-amber-400/60 shadow-md shrink-0">
           <svg class="w-6 h-6 text-[#FBBF24]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="7.5" cy="12" r="4.5"></circle>
             <path d="M12 12h9"></path>
@@ -838,66 +838,66 @@
           <h3 class="text-2xl font-black text-slate-900 tracking-tight mt-0.5">Паспорт бренда</h3>
         </div>
       </div>
-      <button id="btn-close-passport" class="no-print w-9 h-9 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-600 font-black text-base cursor-pointer transition">✕</button>
+      <button id="btn-close-passport" class="no-print w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-600 font-black text-lg cursor-pointer transition">✕</button>
     </div>
 
     <!-- ГЛАВНАЯ ПЛАШКА: КРУПНОЕ ИМЯ И ОЦЕНКА -->
-    <div class="p-6 sm:p-7 rounded-2xl bg-gradient-to-r from-amber-50/90 via-[#FFFDF7] to-slate-50 border-2 border-amber-200 mb-6 flex items-center justify-between shadow-xs relative z-10">
+    <div class="p-6 sm:p-8 rounded-2xl bg-gradient-to-r from-amber-50/90 via-[#FFFDF5] to-slate-50 border-2 border-amber-200 mb-6 flex items-center justify-between shadow-xs relative z-10">
       <div>
-        <div id="pass-name" class="text-4xl sm:text-5xl font-black text-[#071518] tracking-tight">Вершина</div>
-        <div id="pass-translit" class="text-sm sm:text-base text-slate-600 font-mono mt-1.5 font-bold">vershina.ru · Класс 35 МКТУ</div>
+        <div id="pass-name" class="text-5xl sm:text-6xl font-black text-[#071518] tracking-tight">Вершина</div>
+        <div id="pass-translit" class="text-base sm:text-lg text-slate-600 font-mono mt-2 font-bold">vershina.ru · Класс 35 МКТУ</div>
       </div>
-      <div class="text-right pl-6 border-l-2 border-amber-200/80">
-        <div id="pass-score" class="text-4xl sm:text-5xl font-black text-amber-600 leading-none">96/100</div>
-        <div class="text-xs font-black text-slate-500 uppercase mt-1.5 tracking-wider">Сила знака</div>
+      <div class="text-right pl-6 sm:pl-8 border-l-2 border-amber-200">
+        <div id="pass-score" class="text-5xl sm:text-6xl font-black text-amber-600 leading-none">96/100</div>
+        <div class="text-xs sm:text-sm font-black text-slate-500 uppercase mt-2 tracking-wider">Оценка силы имени</div>
       </div>
     </div>
 
-    <!-- СОДЕРЖАТЕЛЬНЫЕ КАРТОЧКИ С УВЕЛИЧЕННЫМ ТЕКСТОМ -->
-    <div class="space-y-4 relative z-10">
+    <!-- СОДЕРЖАТЕЛЬНЫЕ КАРТОЧКИ (ШРИФТ 17-18px) -->
+    <div class="space-y-5 relative z-10">
       
       <!-- 1. КАК СЛЫШАТ КЛИЕНТЫ -->
-      <div class="p-5 sm:p-6 rounded-2xl border-2 border-slate-200 bg-[#FBFDFD]">
-        <div class="flex items-center justify-between mb-2.5">
-          <div class="font-black text-amber-900 uppercase tracking-wider text-xs sm:text-sm">1. Впечатление на слух (Фоносемантика)</div>
-          <span class="text-xs font-black text-amber-800 bg-amber-100 border border-amber-200 px-3 py-0.5 rounded-full">0.3 сек</span>
+      <div class="p-6 rounded-2xl border-2 border-slate-200 bg-[#FBFDFD]">
+        <div class="flex items-center justify-between mb-2">
+          <div class="font-black text-amber-900 uppercase tracking-wider text-xs sm:text-sm">1. Какое впечатление производит на людей</div>
+          <span class="text-xs font-black text-amber-800 bg-amber-100 border border-amber-200 px-3 py-1 rounded-full">0.3 сек</span>
         </div>
-        <div id="pass-summary" class="font-black text-slate-900 text-base sm:text-lg mb-3">Дружелюбный, приятный и комфортный тон</div>
-        <ul id="pass-bullets" class="space-y-2.5 text-slate-800 text-sm sm:text-[15px] font-medium leading-snug"></ul>
+        <div id="pass-summary" class="font-black text-slate-900 text-lg sm:text-xl mb-3">Дружелюбный, приятный и комфортный тон</div>
+        <ul id="pass-bullets" class="space-y-3 text-slate-800 text-base sm:text-lg font-medium leading-snug"></ul>
       </div>
 
       <!-- 2. РЕГИСТРАЦИЯ В РОСПАТЕНТЕ -->
-      <div class="p-5 sm:p-6 rounded-2xl border-2 border-slate-200 bg-[#FBFDFD]">
+      <div class="p-6 rounded-2xl border-2 border-slate-200 bg-[#FBFDFD]">
         <div class="font-black text-amber-900 uppercase tracking-wider text-xs sm:text-sm mb-2">2. Шансы на регистрацию товарного знака</div>
-        <div id="pass-mktu" class="font-black text-slate-900 text-sm sm:text-base">Класс 35 — Выбранная сфера</div>
-        <div id="pass-mktu-desc" class="text-slate-500 text-xs sm:text-sm mt-0.5 mb-3 font-medium">Категория услуг для регистрации в Роспатенте</div>
-        <div id="pass-protect-status" class="text-sm sm:text-[15px] font-semibold text-slate-900 bg-white border border-slate-200 p-4 rounded-xl leading-relaxed shadow-2xs"></div>
+        <div id="pass-mktu" class="font-black text-slate-900 text-base sm:text-lg">Класс 35 — Выбранная сфера</div>
+        <div id="pass-mktu-desc" class="text-slate-500 text-sm mt-0.5 mb-3 font-medium">Категория услуг для регистрации в Роспатенте</div>
+        <div id="pass-protect-status" class="text-base sm:text-lg font-semibold text-slate-900 bg-white border border-slate-200 p-4 rounded-xl leading-relaxed shadow-2xs"></div>
       </div>
 
       <!-- 3. ЦВЕТА БРЕНДА -->
-      <div class="p-5 sm:p-6 rounded-2xl border-2 border-slate-200 bg-[#FBFDFD]">
+      <div class="p-6 rounded-2xl border-2 border-slate-200 bg-[#FBFDFD]">
         <div class="font-black text-amber-900 uppercase tracking-wider text-xs sm:text-sm mb-1.5">3. Рекомендованные цвета бренда</div>
-        <div class="text-slate-600 text-xs sm:text-sm mb-3.5 font-medium">
-          Цветовая синестезия звуков по фоносемантической матрице Журавлёва:
+        <div class="text-slate-600 text-sm mb-3.5 font-medium">
+          Эти оттенки подсознательно совпадают со звуками слова по шкале фоносемантики:
         </div>
-        <div class="flex items-center justify-between bg-white p-4 rounded-xl border border-slate-200">
-          <div id="pass-palette-names" class="text-slate-900 text-sm sm:text-base font-black">Изумрудный + Сапфировый</div>
+        <div class="flex items-center justify-between bg-white p-4 sm:p-5 rounded-xl border border-slate-200">
+          <div id="pass-palette-names" class="text-slate-900 text-base sm:text-lg font-black">Изумрудный + Сапфировый</div>
           <div id="pass-palette-swatches" class="flex items-center gap-3">
-            <span class="w-8 h-8 rounded-full bg-[#059669] shadow-sm border border-black/10"></span>
-            <span class="w-8 h-8 rounded-full bg-[#2563EB] shadow-sm border border-black/10"></span>
+            <span class="w-9 h-9 rounded-full bg-[#059669] shadow-sm border border-black/10"></span>
+            <span class="w-9 h-9 rounded-full bg-[#2563EB] shadow-sm border border-black/10"></span>
           </div>
         </div>
       </div>
 
     </div>
 
-    <!-- ПОДВАЛ С КНОПКОЙ -->
-    <div class="pt-5 mt-6 border-t border-slate-200 flex items-center justify-between text-xs sm:text-sm no-print relative z-10">
+    <!-- ПОДВАЛ С ЖЁЛТОЙ КНОПКОЙ -->
+    <div class="pt-6 mt-6 border-t-2 border-slate-100 flex items-center justify-between text-sm no-print relative z-10">
       <div class="flex items-center gap-2">
-        <span class="font-black text-slate-900 text-base">Бюро «КЛЮЧ»</span>
+        <span class="font-black text-slate-900 text-lg">Бюро «КЛЮЧ»</span>
         <span class="text-slate-400 font-medium">· Реестр ФИПС · 2026</span>
       </div>
-      <button onclick="window.print()" class="px-7 py-3 btn-primary rounded-xl font-black text-xs sm:text-sm uppercase tracking-wider shadow-sm transition">
+      <button onclick="window.print()" class="px-8 py-3.5 btn-primary rounded-xl font-black text-sm uppercase tracking-wider shadow-sm transition cursor-pointer">
         Распечатать паспорт
       </button>
     </div>
