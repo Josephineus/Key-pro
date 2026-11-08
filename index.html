@@ -818,97 +818,74 @@
     </div>
   </div>
 </div>
-<!-- МОДАЛЬНОЕ ОКНО: ПАСПОРТ БРЕНДА (ШИРОКИЙ ГОРИЗОНТАЛЬНЫЙ ФОРМАТ) -->
+<!-- МОДАЛЬНОЕ ОКНО: ПАСПОРТ БРЕНДА С ГЕРБОВЫМ ВОДЯНЫМ ЗНАКОМ ПТИЦЫ -->
 <div id="passport-modal" class="fixed inset-0 z-50 bg-[#060E11]/80 backdrop-blur-md hidden flex items-center justify-center p-4 overflow-y-auto">
-  <div class="max-w-3xl w-full p-6 sm:p-8 bg-white text-slate-900 shadow-2xl relative my-8 border-2 border-amber-300/70 rounded-3xl" id="passport-print-zone">
+  <div class="max-w-xl w-full p-6 sm:p-8 bg-white text-slate-900 shadow-2xl relative my-8 border border-amber-300/40 rounded-3xl overflow-hidden" id="passport-print-zone">
     
-    <!-- ШАПКА: С ЗОЛОТЫМ ЗНАЧКОМ КЛЮЧА -->
-    <div class="flex items-center justify-between pb-3.5 mb-4 border-b border-slate-200 relative z-10">
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-[#060E11] via-[#00524D] to-[#F59E0B] flex items-center justify-center border border-amber-400/60 shadow-sm shrink-0">
-          <svg class="w-5 h-5 text-[#FBBF24]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="7.5" cy="12" r="4.5"></circle>
-            <path d="M12 12h9"></path>
-            <path d="M17 12v3"></path>
-            <path d="M20 12v2"></path>
-          </svg>
-        </div>
-        <div>
-          <span class="text-[10px] font-black text-amber-700 uppercase tracking-widest block">Экспертный разбор названия</span>
-          <h3 class="text-xl font-black text-slate-900 tracking-tight mt-0.5">Паспорт бренда</h3>
-        </div>
-      </div>
-      <button id="btn-close-passport" class="no-print w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-600 font-bold cursor-pointer text-xs transition">✕</button>
+    <!-- Водяной знак ласточки на фоне паспорта -->
+    <div class="absolute -right-8 -bottom-8 w-64 h-64 opacity-5 pointer-events-none">
+      <svg viewBox="0 0 32 32" fill="#00524D">
+        <path d="M7 16 C11 14 17 9 21 5 C21 9 19 14 15 18 L12 24 L14 17 L9 19 Z"/>
+      </svg>
     </div>
 
-    <!-- ГЛАВНАЯ ПЛАШКА: ИМЯ И ОЦЕНКА -->
-    <div class="p-5 rounded-2xl bg-gradient-to-r from-amber-50/90 via-[#FFFDF5] to-slate-50 border border-amber-200 mb-4 flex items-center justify-between shadow-xs relative z-10">
+    <div class="flex items-start justify-between pb-3 mb-4 border-b border-slate-100 relative z-10">
       <div>
-        <div id="pass-name" class="text-3xl sm:text-4xl font-black text-[#071518] tracking-tight">Вершина</div>
-        <div id="pass-translit" class="text-xs sm:text-sm text-slate-600 font-mono mt-1 font-bold">vershina.ru · Класс 35 МКТУ</div>
+        <span class="text-[10px] font-bold text-amber-700 uppercase tracking-widest block">Экспертный разбор названия</span>
+        <h3 class="text-xl font-black text-slate-900 tracking-tight mt-0.5">Паспорт бренда</h3>
       </div>
-      <div class="text-right pl-5 border-l-2 border-amber-200/80">
-        <div id="pass-score" class="text-3xl sm:text-4xl font-black text-amber-600 leading-none">96/100</div>
-        <div class="text-[10px] font-black text-slate-500 uppercase mt-1 tracking-wider">Оценка силы имени</div>
+      <button id="btn-close-passport" class="no-print w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-600 font-bold cursor-pointer text-xs">✕</button>
+    </div>
+
+    <!-- ГЛАВНАЯ ПЛАШКА С ИМЕНЕМ -->
+    <div class="p-4 sm:p-5 rounded-2xl bg-gradient-to-r from-amber-50 to-slate-50 border border-amber-200 mb-5 flex items-center justify-between relative z-10">
+      <div>
+        <div id="pass-name" class="text-3xl font-black text-[#071518]"></div>
+        <div id="pass-translit" class="text-xs text-slate-500 font-mono mt-0.5"></div>
+      </div>
+      <div class="text-right">
+        <div id="pass-score" class="text-3xl font-black text-amber-600"></div>
+        <div class="text-[10px] font-bold text-slate-400 uppercase">Оценка легкости имени</div>
       </div>
     </div>
 
-    <!-- ДВЕ КОЛОНКИ: ИСКЛЮЧАЮТ ПУСТОТУ НА СЛАЙДЕ -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-4 relative z-10 text-xs">
+    <div class="space-y-4 text-xs relative z-10">
       
-      <!-- ЛЕВАЯ КОЛОНКА: ФОНОСЕМАНТИКА -->
-      <div class="p-4 sm:p-5 rounded-2xl border border-slate-200 bg-[#FBFDFD] flex flex-col justify-between">
-        <div>
-          <div class="flex items-center justify-between mb-2">
-            <div class="font-black text-amber-900 uppercase tracking-wider text-[11px]">1. Впечатление на слух</div>
-            <span class="text-[10px] font-black text-amber-800 bg-amber-100 border border-amber-200 px-2.5 py-0.5 rounded-full">0.3 сек</span>
-          </div>
-          <div id="pass-summary" class="font-black text-[#00524D] text-sm mb-2.5">Дружелюбный, приятный и комфортный тон</div>
-          <ul id="pass-bullets" class="space-y-2 text-slate-800 text-[11px] font-medium leading-relaxed">
-            <!-- Скрипт подставит звуки -->
-          </ul>
-        </div>
+      <!-- 1. КАК СЛЫШАТ КЛИЕНТЫ -->
+      <div class="p-4 rounded-xl border border-slate-200 bg-white">
+        <div class="font-bold text-amber-800 uppercase tracking-wider text-[10px] mb-1">1. Какое впечатление производит на людей</div>
+        <div id="pass-summary" class="font-bold text-slate-900 text-sm mb-1"></div>
+        <ul id="pass-bullets" class="space-y-1 text-slate-600 text-[11px]"></ul>
       </div>
 
-      <!-- ПРАВАЯ КОЛОНКА: РОСПАТЕНТ И ЦВЕТА -->
-      <div class="space-y-3.5 flex flex-col justify-between">
-        
-        <!-- 2. Роспатент -->
-        <div class="p-4 rounded-2xl border border-slate-200 bg-[#FBFDFD]">
-          <div class="font-black text-amber-900 uppercase tracking-wider text-[11px] mb-1">2. Товарный знак (ст. 1483 ГК РФ)</div>
-          <div id="pass-mktu" class="font-black text-slate-900 text-xs">Класс 35 — Выбранная сфера</div>
-          <div id="pass-mktu-desc" class="text-slate-500 text-[10px] mb-2 font-medium">Категория для регистрации в Роспатенте</div>
-          <div id="pass-protect-status" class="bg-white border border-slate-200 p-2.5 rounded-xl text-[11px] font-medium leading-snug shadow-2xs">
-            <!-- Скрипт подставит статус -->
-          </div>
-        </div>
+      <!-- 2. РЕГИСТРАЦИЯ В РОСПАТЕНТЕ -->
+      <div class="p-4 rounded-xl border border-slate-200 bg-white">
+        <div class="font-bold text-amber-800 uppercase tracking-wider text-[10px] mb-1">2. Шансы на регистрацию товарного знака</div>
+        <div id="pass-mktu" class="font-bold text-slate-900 text-xs"></div>
+        <div id="pass-mktu-desc" class="text-slate-500 text-[11px] mt-0.5 mb-2"></div>
+        <div id="pass-protect-status" class="text-[11px] font-semibold text-slate-800 bg-slate-50 border border-slate-200 p-2.5 rounded-lg"></div>
+      </div>
 
-        <!-- 3. Цвета бренда -->
-        <div class="p-3.5 rounded-2xl border border-slate-200 bg-[#FBFDFD]">
-          <div class="font-black text-amber-900 uppercase tracking-wider text-[11px] mb-1">3. Рекомендованные цвета бренда</div>
-          <div class="flex items-center justify-between bg-white p-2.5 rounded-xl border border-slate-200 mt-1.5">
-            <div id="pass-palette-names" class="text-slate-900 text-xs font-black">Изумрудный + Сапфировый</div>
-            <div id="pass-palette-swatches" class="flex items-center gap-2">
-              <!-- Скрипт подставит кружки -->
-            </div>
-          </div>
+      <!-- 3. ЦВЕТА ДЛЯ ЛОГОТИПА И САЙТА -->
+      <div class="p-4 rounded-xl border border-slate-200 bg-white">
+        <div class="font-bold text-amber-800 uppercase tracking-wider text-[10px] mb-1">3. Рекомендованные цвета бренда</div>
+        <div class="text-slate-500 text-[11px] mb-2.5">
+          Эти оттенки подсознательно совпадают со звуками слова по шкале фоносемантики:
         </div>
-
+        <div class="flex items-center justify-between bg-slate-50 p-2.5 rounded-xl border border-slate-100">
+          <div id="pass-palette-names" class="text-slate-800 text-xs font-bold"></div>
+          <div id="pass-palette-swatches" class="flex items-center gap-1.5"></div>
+        </div>
       </div>
 
     </div>
 
-    <!-- ПОДВАЛ С ЖЁЛТОЙ КНОПКОЙ -->
-    <div class="pt-4 mt-4 border-t border-slate-200 flex items-center justify-between text-xs no-print relative z-10">
-      <div class="flex items-center gap-2">
-        <span class="font-black text-slate-900 text-xs">Бюро «КЛЮЧ»</span>
-        <span class="text-slate-400 font-medium text-[11px]">· Реестр ФИПС · 2026</span>
-      </div>
-      <button onclick="window.print()" class="px-6 py-2.5 btn-primary rounded-xl font-black text-xs uppercase tracking-wider shadow-sm transition cursor-pointer">
+    <div class="pt-4 mt-5 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400 no-print relative z-10">
+      <span>Бюро «КЛЮЧ» · 2026</span>
+      <button onclick="window.print()" class="px-5 py-2.5 btn-primary rounded-xl transition cursor-pointer text-xs">
         Распечатать паспорт
       </button>
     </div>
-
   </div>
 </div>
 <!-- ТОСТ -->
