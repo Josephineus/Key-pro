@@ -818,135 +818,113 @@
     </div>
   </div>
 </div>
-
-<!-- МОДАЛЬНОЕ ОКНО: ПАСПОРТ БРЕНДА (ПРЕМИУМ-ВЕРСИЯ ДЛЯ СКРИНШОТА) -->
+ <!-- МОДАЛЬНОЕ ОКНО: ПАСПОРТ БРЕНДА (ПРЕМИУМ ДЛЯ СКРИНШОТА) -->
 <div id="passport-modal" class="fixed inset-0 z-50 bg-[#060E11]/85 backdrop-blur-md flex items-center justify-center p-4">
-  <div class="max-w-xl w-full p-7 bg-white text-slate-900 shadow-[0_30px_90px_rgba(0,0,0,0.5)] relative border border-amber-300/50 rounded-[32px] overflow-hidden font-sans">
+  <div class="max-w-xl w-full p-7 sm:p-8 bg-white text-slate-900 shadow-[0_25px_70px_rgba(0,0,0,0.45)] relative border border-amber-300/50 rounded-[32px] overflow-hidden">
     
-    <!-- Шапка сертификата: Регистрационные данные -->
-    <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-100">
-      <div class="flex items-center gap-2">
-        <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-        <span class="font-mono text-[10px] font-bold tracking-widest uppercase text-slate-400">
-          ЭКСПЕРТНОЕ ЗАКЛЮЧЕНИЕ · ID: RU-77/2026-V96
-        </span>
+    <!-- Верхняя статусная строка с ключом -->
+    <div class="flex items-center justify-between pb-3.5 mb-4 border-b border-slate-100">
+      <div class="flex items-center gap-2.5">
+        <div class="w-7 h-7 rounded-lg bg-gradient-to-tr from-[#060E11] to-[#00524D] flex items-center justify-center border border-amber-400/40">
+          <svg class="w-4 h-4 text-[#FBBF24]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <circle cx="7.5" cy="12" r="4.5"></circle>
+            <path d="M12 12h9"></path>
+            <path d="M17 12v3"></path>
+          </svg>
+        </div>
+        <div>
+          <span class="text-[10px] font-extrabold uppercase tracking-widest text-[#071518] block">БЮРО «КЛЮЧ» · ЭКСПЕРТНЫЙ РАЗБОР</span>
+        </div>
       </div>
-      <span class="text-[10px] font-mono font-bold text-amber-700 bg-amber-50 border border-amber-200/80 px-2.5 py-0.5 rounded-full uppercase">
-        СТАНДАРТ ЖУРАВЛЕВА
+      <span class="text-[10px] font-bold text-amber-800 bg-amber-50 border border-amber-200/80 px-2.5 py-1 rounded-full uppercase tracking-wider">
+        Паспорт бренда
       </span>
     </div>
 
-    <!-- Заглавный блок с оценкой -->
-    <div class="p-5 rounded-2xl bg-gradient-to-r from-[#F8FAF9] via-amber-50/40 to-slate-50 border border-amber-200/90 mb-5 flex items-center justify-between shadow-xs">
+    <!-- Заглавный блок бренда -->
+    <div class="p-5 sm:p-6 rounded-2xl bg-gradient-to-r from-amber-50/50 via-[#F8FAF9] to-slate-50 border border-amber-200/80 mb-5 flex items-center justify-between">
       <div>
-        <div class="text-[10px] font-mono uppercase tracking-widest text-amber-700 font-bold mb-0.5">ВЕРИФИЦИРОВАННЫЙ ЭРГОНИМ</div>
-        <div class="text-4xl font-black text-[#071518] tracking-tight">ВЕРШИНА</div>
-        <div class="text-xs text-slate-500 font-mono mt-1 flex items-center gap-2">
-          <span>vershina.ru</span>
-          <span>•</span>
+        <div class="text-3xl sm:text-4xl font-black text-[#071518] tracking-tight">ВЕРШИНА</div>
+        <div class="text-xs font-semibold text-slate-500 mt-1 flex items-center gap-2">
+          <span class="text-slate-700 font-bold font-mono">vershina.ru</span>
+          <span>·</span>
           <span>Класс 35 МКТУ</span>
-          <span>•</span>
+          <span>·</span>
           <span class="text-emerald-700 font-bold">7 букв (Оптимум Миллера)</span>
         </div>
       </div>
-      <div class="text-right pl-4 border-l border-amber-200/60">
-        <div class="text-4xl font-black text-amber-600 tracking-tight leading-none">96<span class="text-lg text-slate-400 font-semibold">/100</span></div>
-        <div class="text-[9px] font-mono font-bold text-emerald-700 uppercase mt-1 tracking-wider">GRADE AAA · ОПТИМУМ</div>
+      <div class="text-right pl-4 border-l border-amber-200/70">
+        <div class="text-3xl sm:text-4xl font-black text-amber-600 tracking-tight leading-none">96<span class="text-base text-slate-400 font-bold">/100</span></div>
+        <div class="text-[9px] font-extrabold text-slate-400 uppercase mt-1 tracking-wider">Оценка силы знака</div>
       </div>
     </div>
 
+    <!-- Содержательные блоки -->
     <div class="space-y-3.5 text-xs">
       
-      <!-- WOW-ЭЛЕМЕНТ: Графический спектр фоносемантики -->
-      <div class="p-4 rounded-xl border border-slate-200 bg-white shadow-2xs">
-        <div class="flex items-center justify-between mb-2">
-          <span class="font-bold text-[#071518] uppercase tracking-wider text-[10px]">
-            1. Цифровой звуковой спектр (Матрица Журавлёва)
-          </span>
-          <span class="text-[10px] font-mono text-slate-400">Психоакустический замер</span>
+      <!-- 1. Фоносемантика -->
+      <div class="p-4 rounded-2xl border border-slate-200 bg-white">
+        <div class="font-extrabold text-[#071518] text-[11px] uppercase tracking-wider mb-1.5 flex items-center justify-between">
+          <span>1. Восприятие аудиторией (Фоносемантика Журавлёва)</span>
+          <span class="text-amber-700 font-bold text-[10px] bg-amber-100/60 px-2 py-0.5 rounded">0.3 сек</span>
         </div>
-        
-        <!-- Графические полосы эквалайзера -->
-        <div class="space-y-2 pt-1 font-mono text-[11px]">
-          <div>
-            <div class="flex justify-between text-slate-700 mb-1">
-              <span>Широкие гласные [А] · Ощущение масштаба</span>
-              <span class="font-bold text-[#071518]">95%</span>
-            </div>
-            <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
-              <div class="h-full bg-gradient-to-r from-amber-400 to-amber-500 rounded-full" style="width: 95%"></div>
-            </div>
+        <div class="font-bold text-amber-900 text-sm mb-2.5">Дружелюбный, приятный и комфортный тон</div>
+        <div class="space-y-2 text-slate-700">
+          <div class="flex items-center gap-2">
+            <span class="font-mono font-black text-xs px-2 py-0.5 rounded-md bg-amber-100 text-amber-950 border border-amber-300/60">[Р]</span>
+            <span>Рычащий сонорный звук сообщает решительность, скорость и драйв</span>
           </div>
-
-          <div>
-            <div class="flex justify-between text-slate-700 mb-1">
-              <span>Рычащий согласный [Р] · Скорость и напор</span>
-              <span class="font-bold text-[#071518]">92%</span>
-            </div>
-            <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
-              <div class="h-full bg-gradient-to-r from-amber-400 to-amber-500 rounded-full" style="width: 92%"></div>
-            </div>
+          <div class="flex items-center gap-2">
+            <span class="font-mono font-black text-xs px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-950 border border-emerald-300/60">[Н]</span>
+            <span>Мягкий согласный делает слово приятным на слух, оно легко произносится</span>
           </div>
-
-          <div>
-            <div class="flex justify-between text-slate-700 mb-1">
-              <span>Сонорный мягкий [Н] · Доверие и комфорт</span>
-              <span class="font-bold text-[#071518]">88%</span>
-            </div>
-            <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden">
-              <div class="h-full bg-gradient-to-r from-emerald-400 to-emerald-600 rounded-full" style="width: 88%"></div>
-            </div>
+          <div class="flex items-center gap-2">
+            <span class="font-mono font-black text-xs px-2 py-0.5 rounded-md bg-amber-100 text-amber-950 border border-amber-300/60">[А/Я]</span>
+            <span>Широкие открытые гласные формируют ощущение масштаба и уверенности</span>
           </div>
         </div>
       </div>
 
-      <!-- Правовая охраноспособность -->
-      <div class="p-4 rounded-xl border border-slate-200 bg-white shadow-2xs">
-        <div class="font-bold text-[#071518] uppercase tracking-wider text-[10px] mb-1.5">
-          2. Экспертиза товарного знака (ст. 1483 ГК РФ)
+      <!-- 2. Роспатент -->
+      <div class="p-4 rounded-2xl border border-slate-200 bg-white">
+        <div class="font-extrabold text-[#071518] text-[11px] uppercase tracking-wider mb-2">
+          2. Шансы на регистрацию товарного знака (ст. 1483 ГК РФ)
         </div>
-        <div class="flex items-start gap-2.5 p-2.5 rounded-lg bg-slate-50 border border-slate-200 text-[11px] leading-snug">
-          <span class="w-4 h-4 rounded-full bg-emerald-100 text-emerald-700 font-bold flex items-center justify-center shrink-0 mt-0.5 text-xs">✓</span>
-          <div>
-            <span class="font-bold text-slate-900">Охраноспособная метафора со сдвигом контекста:</span>
-            <span class="text-slate-600"> Отсутствуют описательные отраслевые штампы. Рекомендована регистрация в виде комбинированного знака в Роспатенте.</span>
+        <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 leading-relaxed text-slate-700">
+          <div class="flex items-center gap-2 mb-1">
+            <span class="inline-block w-2 h-2 rounded-full bg-emerald-500"></span>
+            <span class="font-black text-slate-900 text-xs">Охраноспособная метафора со сдвигом контекста</span>
           </div>
+          <p class="text-[11px] text-slate-600">
+            Описательные штампы отсутствуют (п. 1 ст. 1483). Из-за высокой плотности слова в классе 35 рекомендуется регистрация в составе комбинированного знака (уникальный шрифт + знак).
+          </p>
         </div>
       </div>
 
-      <!-- Цветовая синестезия -->
-      <div class="p-3.5 rounded-xl border border-slate-200 bg-white flex items-center justify-between">
+      <!-- 3. Цвета -->
+      <div class="p-4 rounded-2xl border border-slate-200 bg-white flex items-center justify-between">
         <div>
-          <div class="font-bold text-[#071518] uppercase tracking-wider text-[10px]">
-            3. Рекомендованная палитра айдентики
+          <div class="font-extrabold text-[#071518] text-[11px] uppercase tracking-wider mb-1">
+            3. Рекомендованные цвета бренда
           </div>
-          <div class="text-[11px] text-slate-500 font-mono mt-0.5">
-            Изумрудный (#059669) + Глубокий сапфир (#2563EB)
-          </div>
+          <p class="text-[11px] text-slate-500">
+            Изумрудный (#059669) + Сапфировый (#2563EB)
+          </p>
         </div>
-        <div class="flex items-center gap-1.5">
-          <span class="w-6 h-6 rounded-lg bg-[#059669] shadow-xs border border-black/10"></span>
-          <span class="w-6 h-6 rounded-lg bg-[#2563EB] shadow-xs border border-black/10"></span>
+        <div class="flex items-center gap-2">
+          <div class="w-7 h-7 rounded-xl bg-[#059669] shadow-sm border border-slate-200" title="Изумрудный"></div>
+          <div class="w-7 h-7 rounded-xl bg-[#2563EB] shadow-sm border border-slate-200" title="Сапфировый"></div>
         </div>
       </div>
 
     </div>
 
-    <!-- Подвал сертификата со штрихкодом -->
-    <div class="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between text-slate-400 text-[10px] font-mono">
-      <div class="flex items-center gap-2">
-        <!-- Мини-штрихкод экспертизы -->
-        <div class="flex items-center gap-0.5 h-4 opacity-40">
-          <span class="w-0.5 h-full bg-slate-900"></span>
-          <span class="w-1 h-full bg-slate-900"></span>
-          <span class="w-0.5 h-full bg-slate-900"></span>
-          <span class="w-1.5 h-full bg-slate-900"></span>
-          <span class="w-0.5 h-full bg-slate-900"></span>
-          <span class="w-1 h-full bg-slate-900"></span>
-        </div>
-        <span>БЮРО «КЛЮЧ» · СИСТЕМА ПРИКЛАДНОЙ ОНОМАСТИКИ</span>
+    <!-- Нижняя плашка с кнопкой -->
+    <div class="pt-4 mt-5 border-t border-slate-100 flex items-center justify-between text-xs">
+      <span class="text-slate-400 font-semibold text-[11px]">Бюро «КЛЮЧ» · 2026</span>
+      <div class="btn-primary px-5 py-2.5 rounded-xl font-black text-xs uppercase tracking-wider shadow-sm cursor-pointer">
+        Распечатать паспорт
       </div>
-      <span class="text-amber-800 font-bold bg-amber-50 px-2 py-0.5 rounded border border-amber-200">ЭКСПЕРТИЗА ЗАВЕРШЕНА</span>
     </div>
 
   </div>
